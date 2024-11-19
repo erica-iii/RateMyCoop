@@ -260,11 +260,37 @@ VALUES
 
 # CRUD Statements for Persona 1
     # user story 1
+    SELECT stars, content, likes, createdAt,
+        CASE
+            WHEN anonymous = FALSE THEN username
+        END AS username
+        FROM reviews r
+            JOIN students s on r.poster = s.studentId
+        ORDER BY r.createdAt;
     # user story 2
+    SELECT ROUND(AVG(gpa), 2) AS avgGpa, ROUND(AVG(numCoop), 2) AS avgNumCoop,
+           ROUND(AVG(numClubs), 2) AS avgNumClubs, ROUND(AVG(numLeadership), 2) AS avgLeadership, jobTitle, companyName
+    FROM reviews r
+        JOIN coops c ON r.coopId = c.coopId
+        JOIN companies co ON r.reviewOf = co.companyId
+        JOIN students s ON r.poster = s.studentId
+        JOIN student_stats ss ON s.studentId = ss.studentId
+    WHERE statSharing != 0 AND jobTitle = 'Software Developer' AND anonymous = FALSE
+    GROUP BY jobTitle, companyName;
     # user story 3
+    INSERT INTO reviews (poster, reviewOf,anonymous, content, stars, coopId, likes)
+        VALUES (1, 1, 0,
+                'Second Co-Op with them was even better!', 5, 1, 10);
     # user story 4
+    UPDATE reviews
+    SET content = 'Second Co-op with them was even better, shout out to TechCorp!'
+    WHERE reviewId = 4;
     # user story 5
+    DELETE FROM reviews WHERE reviewId = 4;
     # user story 6
+    UPDATE students
+    SET statSharing = 0
+    WHERE studentId = 1;
 
 # CRUD Statements for Persona 2
     # user story 1
