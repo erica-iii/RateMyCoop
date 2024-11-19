@@ -257,4 +257,34 @@ VALUES
 ('Issue with company login process', 1),
 ('Request for new coop job posting template', 0);
 
-SELECT * FROM students;
+# CRUD Statements for Persona 1
+    # user story 1
+    # user story 2
+    # user story 3
+    # user story 4
+    # user story 5
+    # user story 6
+
+# CRUD Statements for Persona 2
+    # user story 1
+    # user story 2
+    # user story 3
+    # user story 4
+    # user story 5
+    # user story 6
+
+# CRUD Statements for Persona 3
+    # user story 1
+    # user story 2
+    # user story 3
+    # user story 4
+    # user story 5
+    # user story 6
+
+# CRUD Statements for Persona 4
+    # user story 1
+    # user story 2
+    # user story 3
+    # user story 4
+    # user story 5
+    # user story 6
