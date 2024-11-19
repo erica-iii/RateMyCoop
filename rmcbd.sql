@@ -131,6 +131,7 @@ CREATE TABLE reviews (
     reviewId int AUTO_INCREMENT NOT NULL,
     poster int NOT NULL,
     reviewOf int NOT NULL,
+    anonymous tinyint NOT NULL,
     content text NOT NULL,
     stars int NOT NULL,
     coopId int NOT NULL,
@@ -232,11 +233,11 @@ VALUES
 ('Electrical Engineer Intern', 22.00, 'Chicago', 'Engineering', 'Worked on product development', 3);
 
 -- Inserting sample data for reviews
-INSERT INTO reviews (poster, reviewOf, content, stars, coopId, likes)
+INSERT INTO reviews (poster, reviewOf,anonymous, content, stars, coopId, likes)
 VALUES
-(1, 1, 'Great work environment and team', 5, 1, 10),
-(2, 2, 'Good experience but could improve communication', 3, 2, 5),
-(3, 3, 'Excellent mentoring and project opportunities', 5, 3, 12);
+(1, 1, 0, 'Great work environment and team', 5, 1, 10),
+(2, 2, 0, 'Good experience but could improve communication', 3, 2, 5),
+(3, 3, 0, 'Excellent mentoring and project opportunities', 5, 3, 12);
 
 -- Inserting sample data for comments
 INSERT INTO comments (reviewId, content, poster)
@@ -283,8 +284,55 @@ VALUES
 
 # CRUD Statements for Persona 4
     # user story 1
+    SELECT * FROM coops
+        WHERE hourlyRate > 21 AND industry = 'Tech';
     # user story 2
+    SELECT companyName, jobTitle, industry, location, content, stars, likes,publishedAt,
+           CASE
+               WHEN anonymous = FALSE THEN username
+            END AS username
+    FROM reviews r
+        JOIN coops c ON r.coopId = c.coopId
+        JOIN companies co ON r.reviewOf = co.companyId
+        JOIN students s ON r.poster = s.studentId
+    WHERE jobTitle = 'Software Developer' AND companyName = 'TechCorp';
     # user story 3
+    SELECT ROUND(AVG(gpa), 2) AS avgGpa, ROUND(AVG(numCoop), 2) AS avgNumCoop,
+           ROUND(AVG(numClubs), 2) AS avgNumClubs, ROUND(AVG(numLeadership), 2) AS avgLeadership, jobTitle, companyName
+    FROM reviews r
+        JOIN coops c ON r.coopId = c.coopId
+        JOIN companies co ON r.reviewOf = co.companyId
+        JOIN students s ON r.poster = s.studentId
+        JOIN student_stats ss ON s.studentId = ss.studentId
+    WHERE statSharing != 0 AND jobTitle = 'Software Developer'
+    GROUP BY jobTitle, companyName;
     # user story 4
+    SELECT * FROM (SELECT ROUND(AVG(gpa), 2) AS avgGpa, ROUND(AVG(numCoop), 2) AS avgNumCoop,
+           ROUND(AVG(numClubs), 2) AS avgNumClubs, ROUND(AVG(numLeadership), 2) AS avgLeadership, jobTitle, companyName
+    FROM reviews r
+        JOIN coops c ON r.coopId = c.coopId
+        JOIN companies co ON r.reviewOf = co.companyId
+        JOIN students s ON r.poster = s.studentId
+        JOIN student_stats ss ON s.studentId = ss.studentId
+    WHERE statSharing != 0
+    GROUP BY jobTitle, companyName) AS meta
+    WHERE avgGpa > 3.8 AND avgLeadership > 1;
     # user story 5
+    SELECT companyName, ROUND(AVG(avgRating), 2) AS avgCoopRating, ROUND(AVG(avgHourlyRate), 2) AS avgCoopPay FROM
+        (SELECT companyName, ROUND(AVG(stars), 2) AS avgRating, ROUND(AVG(hourlyRate), 2) AS avgHourlyRate
+           FROM companies co
+               JOIN coops c on co.companyId = c.company
+               JOIN reviews r on c.coopId = r.coopId
+           WHERE companyName = 'TechCorp'
+           GROUP BY jobTitle) AS meta
+    GROUP BY companyName;
     # user story 6
+    SELECT * FROM (SELECT companyName, ROUND(AVG(avgRating), 2) AS avgCoopRating, ROUND(AVG(avgHourlyRate), 2) AS avgCoopPay FROM
+        (SELECT companyName, ROUND(AVG(stars), 2) AS avgRating, ROUND(AVG(hourlyRate), 2) AS avgHourlyRate
+           FROM companies co
+               JOIN coops c on co.companyId = c.company
+               JOIN reviews r on c.coopId = r.coopId
+           WHERE companyName = 'TechCorp'
+           GROUP BY jobTitle) AS meta
+    GROUP BY companyName) AS meta2
+    WHERE avgCoopRating > 3 AND avgCoopPay > 23;
