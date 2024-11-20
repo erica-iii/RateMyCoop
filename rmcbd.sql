@@ -185,7 +185,11 @@ CREATE TABLE requests (
     requestId int AUTO_INCREMENT NOT NULL,
     details text,
     resolveStatus bool DEFAULT 0,
-    PRIMARY KEY (requestId)
+    companyId int,
+    studentId int,
+    PRIMARY KEY (requestId),
+    CONSTRAINT fk_1 FOREIGN KEY (companyId) REFERENCES companies (companyId) ON UPDATE cascade ON DELETE cascade,
+    CONSTRAINT fk_2 FOREIGN KEY (studentId) REFERENCES students (studentId) ON UPDATE cascade ON DELETE cascade
 );
 
 CREATE INDEX id ON requests (requestId);
@@ -308,17 +312,17 @@ JOIN student_stats st
 JOIN worked_at w
     ON s.studentId = w.studentId
 JOIN coops c 
-    ON w.companyId = c.companyId
+    ON w.companyId = c.company
 WHERE 
-    c.jobTitle = 'Software Engineer' 
+    c.jobTitle = 'Software Developer'
     AND st.gpa > 3.5
 ORDER BY 
     st.gpa DESC;
 
     # user story 2
 SELECT 
-    r.comment AS review_content, 
-    r.rating, 
+    r.content AS review_content,
+    r.stars,
     r.createdAt AS review_date, 
     CASE 
         WHEN r.anonymous = TRUE THEN 'Anonymous'
@@ -329,7 +333,7 @@ FROM
 JOIN students AS s 
     ON r.poster = s.studentId
 WHERE 
-    r.reviewOf = 112233
+    r.reviewOf = 1
 ORDER BY 
     r.createdAt DESC;
 
@@ -337,7 +341,7 @@ ORDER BY
 SELECT 
     c.jobTitle, 
     COUNT(DISTINCT r.reviewId) AS total_reviews, 
-    AVG(r.rating) AS avg_rating, 
+    AVG(r.stars) AS avg_rating,
     AVG(st.numLeadership) AS avg_leadership_roles, 
     AVG(st.numClubs) AS avg_club_memberships
 FROM 
@@ -349,7 +353,7 @@ LEFT JOIN students AS s
 LEFT JOIN student_stats AS st 
     ON s.studentId = st.studentId
 WHERE 
-    c.companyId = 112233
+    c.company = 1
 GROUP BY 
     c.jobTitle
 ORDER BY 
@@ -367,7 +371,6 @@ SET
 WHERE 
     coopId = 123;
     # user story 5
-
 SELECT 
     st.gender, 
     st.ethnicity
@@ -378,7 +381,7 @@ JOIN student_stats AS st
 JOIN worked_at w
     ON s.studentId = w.studentId
 WHERE 
-    w.companyId = 112233
+    w.companyId = 1
 GROUP BY 
     st.gender, 
     st.ethnicity;
@@ -386,15 +389,15 @@ GROUP BY
     # user story 6
 SELECT 
     c.companyName, 
-    r.rating, 
-    r.comment, 
+    r.stars,
+    r.content,
     r.createdAt AS review_date
 FROM 
     reviews AS r
 JOIN companies AS c 
     ON r.reviewOf = c.companyId
 WHERE 
-    r.reviewOf IN (112233, 123456, 111112)
+    r.reviewOf IN (1, 2, 3)
 ORDER BY 
     r.createdAt DESC;
 
@@ -403,7 +406,7 @@ ORDER BY
     # user story 1
 SELECT 
     r.reviewId, 
-    r.comment AS feedback_content, 
+    r.content AS feedback_content,
     r.createdAt AS submitted_date, 
     s.firstName || ' ' || s.lastName AS student_name, 
     c.jobTitle AS job_title, 
@@ -415,28 +418,27 @@ JOIN students AS s
 JOIN coops AS c 
     ON r.coopId = c.coopId
 JOIN companies AS cmp 
-    ON c.companyId = cmp.companyId
+    ON c.company = cmp.companyId
 WHERE 
-    r.comment LIKE 'hate'
-    OR r.comment LIKE 'ugly';
+    r.content LIKE 'Great'
+    OR r.content LIKE 'ugly';
     
     # user story 2
 
     SELECT 
     req.requestId, 
     req.details AS request_details, 
-    req.resolveStatus, 
-    cmp.companyName, 
-    cmp.repEmail AS contact_email, 
-    req.createdAt AS request_date
+    req.resolveStatus,
+    cmp.companyName,
+    cmp.repEmail AS contact_email
 FROM 
     requests AS req
-JOIN companies AS cmp 
+JOIN companies AS cmp
     ON req.companyId = cmp.companyId
 WHERE 
     req.resolveStatus = 'Pending'
-ORDER BY 
-    req.createdAt ASC;
+ORDER BY
+    req.requestId;
 
     # user story 3
 
@@ -445,8 +447,7 @@ SELECT
     req.details AS request_details, 
     req.resolveStatus, 
     s.firstName || ' ' || s.lastName AS student_name, 
-    s.email AS contact_email, 
-    req.createdAt AS request_date
+    s.email AS contact_email
 FROM 
     requests AS req
 JOIN students AS s 
@@ -454,23 +455,20 @@ JOIN students AS s
 WHERE 
     req.resolveStatus = 'Pending' 
 ORDER BY 
-    req.createdAt ASC;
+    req.requestId;
     # user story 4
-
-UPDATE student_stats
+UPDATE students
 SET 
-    includeInAnalytics = FALSE
+    statSharing = 0
 WHERE 
-    studentId = 112233;
+    studentId = 1;
         
     # user story 5
-
-INSERT INTO analytics_surveys (surveyTitle, description, createdAt, updatedAt)
-VALUES 
-    ('Analytics Survey', 'Here is what the survey contains!', NOW(), NOW());
-
+UPDATE student_stats
+SET
+    gpa = 4.0
+WHERE studentId = 5;
     # user story 6
-
 SELECT 
     'Student' AS user_type, 
     s.firstName || ' ' || s.lastName AS user_name, 
@@ -482,7 +480,7 @@ WHERE
 UNION ALL
 SELECT 
     'Employer' AS user_type, 
-    cmp.repName AS user_name, 
+    cmp.repEmail AS user_name,
     cmp.lastLogin AS last_login
 FROM 
     companies AS cmp
