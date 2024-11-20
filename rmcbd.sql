@@ -294,14 +294,92 @@ VALUES
 
 # CRUD Statements for Persona 2
     # user story 1
+    SELECT 
+    s.studentId, 
+    s.firstName, 
+    s.lastName, 
+    st.resume AS resume_link, 
+    st.numLeadership AS leadership_roles, 
+    st.numClubs AS club_memberships 
+FROM 
+    students s
+JOIN student_stats st 
+    ON s.studentId = st.studentId
+JOIN coops c 
+    ON s.companyId = c.companyId
+WHERE 
+    c.jobTitle = 'Software Engineer' 
+    AND st.gpa > 3.5
+ORDER BY 
+    st.gpa DESC;
     # user story 2
-    # user story 3
-    # user story 4
-    # user story 5
-    # user story 6
 
+    # user story 3
+SELECT 
+    c.jobTitle, 
+    COUNT(DISTINCT r.reviewId) AS total_reviews, 
+    AVG(r.rating) AS avg_rating, 
+    AVG(st.numLeadership) AS avg_leadership_roles, 
+    AVG(st.numClubs) AS avg_club_memberships
+FROM 
+    coops AS c
+LEFT JOIN reviews AS r 
+    ON c.coopId = r.coopId
+LEFT JOIN student_stats AS st 
+    ON r.reviewOf = st.studentId
+WHERE 
+    c.companyId = 112233
+GROUP BY 
+    c.jobTitle
+ORDER BY 
+    avg_rating DESC;
+
+
+    # user story 4
+
+UPDATE 
+    coops
+SET 
+    jobTitle = 'Patient Care Technician', 
+    hourlyRate = 22.50, 
+    industry = 'Healthcare', 
+    summary = 'Provide hands-on patient care by monitoring vital signs, assisting with daily activities, and supporting the healthcare team to ensure patient comfort and safety.'
+WHERE 
+    coopId = 123;
+    # user story 5
+
+SELECT 
+    st.gender, 
+    st.ethnicity
+FROM 
+    students AS s
+JOIN student_stats AS st 
+    ON s.studentId = st.studentId
+WHERE 
+    s.companyId = 112233
+GROUP BY 
+    st.gender, 
+    st.ethnicity
+        
+    # user story 6
+SELECT 
+    c.companyName, 
+    r.rating, 
+    r.comment, 
+    r.createdAt AS review_date
+FROM 
+    reviews AS r
+JOIN companies AS c 
+    ON r.reviewOf = c.companyId
+WHERE 
+    r.reviewOf IN (112233, 123456, 111112)
+ORDER BY 
+    r.createdAt DESC;
+
+        
 # CRUD Statements for Persona 3
     # user story 1
+
     # user story 2
     # user story 3
     # user story 4
