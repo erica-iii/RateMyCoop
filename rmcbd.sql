@@ -313,6 +313,22 @@ WHERE
 ORDER BY 
     st.gpa DESC;
     # user story 2
+SELECT 
+    r.comment AS review_content, 
+    r.rating, 
+    r.createdAt AS review_date, 
+    CASE 
+        WHEN r.anonymous = TRUE THEN 'Anonymous'
+        ELSE s.firstName || ' ' || s.lastName 
+    END AS reviewer_name
+FROM 
+    reviews AS r
+JOIN students AS s 
+    ON r.reviewOf = s.studentId
+WHERE 
+    r.reviewOf = 112233
+ORDER BY 
+    r.createdAt DESC;
 
     # user story 3
 SELECT 
@@ -333,7 +349,6 @@ GROUP BY
     c.jobTitle
 ORDER BY 
     avg_rating DESC;
-
 
     # user story 4
 
@@ -379,12 +394,95 @@ ORDER BY
         
 # CRUD Statements for Persona 3
     # user story 1
-
+SELECT 
+    r.reviewId, 
+    r.comment AS feedback_content, 
+    r.createdAt AS submitted_date, 
+    s.firstName || ' ' || s.lastName AS student_name, 
+    c.jobTitle AS job_title, 
+    cmp.companyName AS company_name
+FROM 
+    reviews AS r
+JOIN students AS s 
+    ON r.reviewOf = s.studentId
+JOIN coops AS c 
+    ON r.coopId = c.coopId
+JOIN companies AS cmp 
+    ON c.companyId = cmp.companyId
+WHERE 
+    r.comment LIKE 'hate'
+    OR r.comment LIKE 'ugly'
+    
     # user story 2
+
+    SELECT 
+    req.requestId, 
+    req.details AS request_details, 
+    req.resolveStatus, 
+    cmp.companyName, 
+    cmp.repEmail AS contact_email, 
+    req.createdAt AS request_date
+FROM 
+    requests AS req
+JOIN companies AS cmp 
+    ON req.companyId = cmp.companyId
+WHERE 
+    req.resolveStatus = 'Pending'
+ORDER BY 
+    req.createdAt ASC;
+
     # user story 3
+
+SELECT 
+    req.requestId, 
+    req.details AS request_details, 
+    req.resolveStatus, 
+    s.firstName || ' ' || s.lastName AS student_name, 
+    s.email AS contact_email, 
+    req.createdAt AS request_date
+FROM 
+    requests AS req
+JOIN students AS s 
+    ON req.studentId = s.studentId
+WHERE 
+    req.resolveStatus = 'Pending' 
+ORDER BY 
+    req.createdAt ASC;
     # user story 4
+
+UPDATE student_stats
+SET 
+    includeInAnalytics = FALSE
+WHERE 
+    studentId = 112233;
+        
     # user story 5
+
+INSERT INTO analytics_surveys (surveyTitle, description, createdAt, updatedAt)
+VALUES 
+    ('Analytics Survey', 'Here is what the survey contains!', NOW(), NOW());
+
     # user story 6
+
+SELECT 
+    'Student' AS user_type, 
+    s.firstName || ' ' || s.lastName AS user_name, 
+    s.lastLogin AS last_login 
+FROM 
+    students AS s
+WHERE 
+    s.activityStatus = 1 
+UNION ALL
+SELECT 
+    'Employer' AS user_type, 
+    cmp.repName AS user_name, 
+    cmp.lastLogin AS last_login
+FROM 
+    companies AS cmp
+WHERE 
+    cmp.activityStatus = 1
+ORDER BY 
+    last_login DESC;
 
 # CRUD Statements for Persona 4
     # user story 1
