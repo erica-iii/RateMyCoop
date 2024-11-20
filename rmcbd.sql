@@ -305,13 +305,16 @@ FROM
     students s
 JOIN student_stats st 
     ON s.studentId = st.studentId
+JOIN worked_at w
+    ON s.studentId = w.studentId
 JOIN coops c 
-    ON s.companyId = c.companyId
+    ON w.companyId = c.companyId
 WHERE 
     c.jobTitle = 'Software Engineer' 
     AND st.gpa > 3.5
 ORDER BY 
     st.gpa DESC;
+
     # user story 2
 SELECT 
     r.comment AS review_content, 
@@ -324,7 +327,7 @@ SELECT
 FROM 
     reviews AS r
 JOIN students AS s 
-    ON r.reviewOf = s.studentId
+    ON r.poster = s.studentId
 WHERE 
     r.reviewOf = 112233
 ORDER BY 
@@ -341,8 +344,10 @@ FROM
     coops AS c
 LEFT JOIN reviews AS r 
     ON c.coopId = r.coopId
+LEFT JOIN students AS s
+    ON r.poster = s.studentId
 LEFT JOIN student_stats AS st 
-    ON r.reviewOf = st.studentId
+    ON s.studentId = st.studentId
 WHERE 
     c.companyId = 112233
 GROUP BY 
@@ -370,11 +375,13 @@ FROM
     students AS s
 JOIN student_stats AS st 
     ON s.studentId = st.studentId
+JOIN worked_at w
+    ON s.studentId = w.studentId
 WHERE 
-    s.companyId = 112233
+    w.companyId = 112233
 GROUP BY 
     st.gender, 
-    st.ethnicity
+    st.ethnicity;
         
     # user story 6
 SELECT 
@@ -404,14 +411,14 @@ SELECT
 FROM 
     reviews AS r
 JOIN students AS s 
-    ON r.reviewOf = s.studentId
+    ON r.poster = s.studentId
 JOIN coops AS c 
     ON r.coopId = c.coopId
 JOIN companies AS cmp 
     ON c.companyId = cmp.companyId
 WHERE 
     r.comment LIKE 'hate'
-    OR r.comment LIKE 'ugly'
+    OR r.comment LIKE 'ugly';
     
     # user story 2
 
