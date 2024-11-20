@@ -358,7 +358,7 @@ SET
     jobTitle = 'Patient Care Technician', 
     hourlyRate = 22.50, 
     industry = 'Healthcare', 
-    summary = 'Provide hands-on patient care by monitoring vital signs, assisting with daily activities, and supporting the healthcare team to ensure patient comfort and safety.'
+    summary = 'Provide patient care by monitoring vital signs, assisting with daily activities, and supporting the healthcare team.'
 WHERE 
     coopId = 123;
     # user story 5
