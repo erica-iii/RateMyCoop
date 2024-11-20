@@ -263,7 +263,7 @@ VALUES
 ('Request for new coop job posting template', 0);
 
 # CRUD Statements for Persona 1
-    # user story 1
+    # user story 1.1
     SELECT stars, content, likes, createdAt,
         CASE
             WHEN anonymous = FALSE THEN username
@@ -271,7 +271,7 @@ VALUES
         FROM reviews r
             JOIN students s on r.poster = s.studentId
         ORDER BY r.createdAt;
-    # user story 2
+    # user story 1.2
     SELECT ROUND(AVG(gpa), 2) AS avgGpa, ROUND(AVG(numCoop), 2) AS avgNumCoop,
            ROUND(AVG(numClubs), 2) AS avgNumClubs, ROUND(AVG(numLeadership), 2) AS avgLeadership, jobTitle, companyName
     FROM reviews r
@@ -281,23 +281,23 @@ VALUES
         JOIN student_stats ss ON s.studentId = ss.studentId
     WHERE statSharing != 0 AND jobTitle = 'Software Developer' AND anonymous = FALSE
     GROUP BY jobTitle, companyName;
-    # user story 3
+    # user story 1.3
     INSERT INTO reviews (poster, reviewOf,anonymous, content, stars, coopId, likes)
         VALUES (1, 1, 0,
                 'Second Co-Op with them was even better!', 5, 1, 10);
-    # user story 4
+    # user story 1.4
     UPDATE reviews
     SET content = 'Second Co-op with them was even better, shout out to TechCorp!'
     WHERE reviewId = 4;
-    # user story 5
+    # user story 1.5
     DELETE FROM reviews WHERE reviewId = 4;
-    # user story 6
+    # user story 1.6
     UPDATE students
     SET statSharing = 0
     WHERE studentId = 1;
 
 # CRUD Statements for Persona 2
-    # user story 1
+    # user story 2.1
     SELECT 
     s.studentId, 
     s.firstName, 
@@ -319,7 +319,7 @@ WHERE
 ORDER BY 
     st.gpa DESC;
 
-    # user story 2
+    # user story 2.2
 SELECT 
     r.content AS review_content,
     r.stars,
@@ -337,7 +337,7 @@ WHERE
 ORDER BY 
     r.createdAt DESC;
 
-    # user story 3
+    # user story 2.3
 SELECT 
     c.jobTitle, 
     COUNT(DISTINCT r.reviewId) AS total_reviews, 
@@ -359,7 +359,7 @@ GROUP BY
 ORDER BY 
     avg_rating DESC;
 
-    # user story 4
+    # user story 2.4
 
 UPDATE 
     coops
@@ -370,7 +370,7 @@ SET
     summary = 'Provide patient care by monitoring vital signs, assisting with daily activities, and supporting the healthcare team.'
 WHERE 
     coopId = 123;
-    # user story 5
+    # user story 2.5
 SELECT 
     st.gender, 
     st.ethnicity
@@ -386,7 +386,7 @@ GROUP BY
     st.gender, 
     st.ethnicity;
         
-    # user story 6
+    # user story 2.6
 SELECT 
     c.companyName, 
     r.stars,
@@ -403,7 +403,7 @@ ORDER BY
 
         
 # CRUD Statements for Persona 3
-    # user story 1
+    # user story 3.1
 SELECT 
     r.reviewId, 
     r.content AS feedback_content,
@@ -423,7 +423,7 @@ WHERE
     r.content LIKE 'Great'
     OR r.content LIKE 'ugly';
     
-    # user story 2
+    # user story 3.2
 
     SELECT 
     req.requestId, 
@@ -440,7 +440,7 @@ WHERE
 ORDER BY
     req.requestId;
 
-    # user story 3
+    # user story 3.3
 
 SELECT 
     req.requestId, 
@@ -456,19 +456,19 @@ WHERE
     req.resolveStatus = 'Pending' 
 ORDER BY 
     req.requestId;
-    # user story 4
+    # user story 3.4
 UPDATE students
 SET 
     statSharing = 0
 WHERE 
     studentId = 1;
         
-    # user story 5
+    # user story 3.5
 UPDATE student_stats
 SET
     gpa = 4.0
 WHERE studentId = 5;
-    # user story 6
+    # user story 3.6
 SELECT 
     'Student' AS user_type, 
     s.firstName || ' ' || s.lastName AS user_name, 
@@ -490,10 +490,10 @@ ORDER BY
     last_login DESC;
 
 # CRUD Statements for Persona 4
-    # user story 1
+    # user story 4.1
     SELECT * FROM coops
         WHERE hourlyRate > 21 AND industry = 'Tech';
-    # user story 2
+    # user story 4.2
     SELECT companyName, jobTitle, industry, location, content, stars, likes,publishedAt,
            CASE
                WHEN anonymous = FALSE THEN username
@@ -503,7 +503,7 @@ ORDER BY
         JOIN companies co ON r.reviewOf = co.companyId
         JOIN students s ON r.poster = s.studentId
     WHERE jobTitle = 'Software Developer' AND companyName = 'TechCorp';
-    # user story 3
+    # user story 4.3
     SELECT ROUND(AVG(gpa), 2) AS avgGpa, ROUND(AVG(numCoop), 2) AS avgNumCoop,
            ROUND(AVG(numClubs), 2) AS avgNumClubs, ROUND(AVG(numLeadership), 2) AS avgLeadership, jobTitle, companyName
     FROM reviews r
@@ -513,7 +513,7 @@ ORDER BY
         JOIN student_stats ss ON s.studentId = ss.studentId
     WHERE statSharing != 0 AND jobTitle = 'Software Developer'
     GROUP BY jobTitle, companyName;
-    # user story 4
+    # user story 4.4
     SELECT * FROM (SELECT ROUND(AVG(gpa), 2) AS avgGpa, ROUND(AVG(numCoop), 2) AS avgNumCoop,
            ROUND(AVG(numClubs), 2) AS avgNumClubs, ROUND(AVG(numLeadership), 2) AS avgLeadership, jobTitle, companyName
     FROM reviews r
@@ -524,7 +524,7 @@ ORDER BY
     WHERE statSharing != 0
     GROUP BY jobTitle, companyName) AS meta
     WHERE avgGpa > 3.8 AND avgLeadership > 1;
-    # user story 5
+    # user story 4.5
     SELECT companyName, ROUND(AVG(avgRating), 2) AS avgCoopRating, ROUND(AVG(avgHourlyRate), 2) AS avgCoopPay FROM
         (SELECT companyName, ROUND(AVG(stars), 2) AS avgRating, ROUND(AVG(hourlyRate), 2) AS avgHourlyRate
            FROM companies co
@@ -533,7 +533,7 @@ ORDER BY
            WHERE companyName = 'TechCorp'
            GROUP BY jobTitle) AS meta
     GROUP BY companyName;
-    # user story 6
+    # user story 4.6
     SELECT * FROM (SELECT companyName, ROUND(AVG(avgRating), 2) AS avgCoopRating, ROUND(AVG(avgHourlyRate), 2) AS avgCoopPay FROM
         (SELECT companyName, ROUND(AVG(stars), 2) AS avgRating, ROUND(AVG(hourlyRate), 2) AS avgHourlyRate
            FROM companies co
