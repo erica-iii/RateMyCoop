@@ -3,11 +3,12 @@ logger = logging.getLogger(__name__)
 import pandas as pd
 import streamlit as st
 from streamlit_extras.app_logo import add_logo
-import world_bank_data as wb
+#import world_bank_data as wb
 import matplotlib.pyplot as plt
 import numpy as np
-import plotly.express as px
+#import plotly.express as px
 from modules.nav import SideBarLinks
+import requests
 
 # Plans: make a drop down show first, whatever company from fakes put in is the one who's data gets called
 
@@ -18,14 +19,14 @@ SideBarLinks()
 st.header('Reviews')
 
 # You can access the session state to make a more customized/personalized app experience
-st.write(f"### Hi, {st.session_state['first_name']}. Reviews.")
+st.write(f"### Hi, {st.session_state['first_name']}. View Reviews.")
 
 # change to access database and fill in company options from there
-options = st.multiselect(
+companies = requests.get('http://api:4000/students/companies').json()
+company = st.selectbox(
     "Please choose a company to view reviews for",
-    ["Green", "Yellow", "Red", "Blue"],
-    ["Yellow", "Red"],
+    [companies]
 )
 
 # change to show the reviews assosiated with selected companies
-st.write("You selected:", options)
+st.write("You selected:", company)
