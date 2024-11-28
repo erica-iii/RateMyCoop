@@ -9,14 +9,16 @@ import numpy as np
 import plotly.express as px
 from modules.nav import SideBarLinks
 
+# Plans: make a drop down show first, whatever company from fakes put in is the one who's data gets called
+
 # Call the SideBarLinks from the nav module in the modules directory
 SideBarLinks()
 
 # set the header of the page
-st.header('World Bank Data')
+st.header('Reviews')
 
 # You can access the session state to make a more customized/personalized app experience
-st.write(f"### Hi, {st.session_state['first_name']}.")
+st.write(f"### Hi, {st.session_state['first_name']}. Please choose a company to view reviews for.")
 
 # get the countries from the world bank data
 with st.echo(code_location='above'):
