@@ -31,6 +31,4 @@ st.write("Reviews for:", company)
 
 response = requests.get(f'http://api:4000/s/students/comp_reviews/{company}')
 reviews = response.json()
-st.write(response)
-st.write(reviews)
-st.dataframe(reviews)
+st.table(reviews)

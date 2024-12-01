@@ -82,7 +82,7 @@ CREATE TABLE companies (
     repEmail varchar(100),
     repPhone varchar(50),
     website varchar(50),
-    passwordHash varchar(128) NOT NULL,
+    passwordHash varchar(128) NOT NULL DEFAULT 'temp_password',
     registeredAt datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
     updatedAt datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
     lastLogin datetime,
@@ -560,3 +560,18 @@ SELECT
             companies c ON cp.company = c.companyId
         WHERE
             c.companyName = 'MediPlus';
+
+INSERT INTO reviews (poster, reviewOf, anonymous, content, stars, coopId)
+VALUES (1, 1, 0, 'good time', 4, 1);
+
+DELETE FROM reviews WHERE content = 'good time' AND reviewOf = 1 AND poster = 1;
+
+
+SELECT * FROM reviews;
+
+
+
+
+
+
+
