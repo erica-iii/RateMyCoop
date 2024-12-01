@@ -21,12 +21,16 @@ st.header('Reviews')
 # You can access the session state to make a more customized/personalized app experience
 st.write(f"### Hi, {st.session_state['first_name']}. View Reviews.")
 
-#st.write(requests.get('http://api:4000/s/students/companies'))
-companies = requests.get('http://api:4000/s/students/companies').json()
+response1 = requests.get('http://api:4000/s/students/companies')
+companies = response1.json()  
+company_names = [company['companyName'] for company in companies] 
+
 company = st.selectbox(
     "Please choose a company to view reviews for",
-    [companies]
+    company_names
 )
+st.write("Reviews for:", company)
 
-# change to show the reviews assosiated with selected companies
-st.write("You selected:", company)
+response2 = requests.get('http://api:4000/s/students/comp_reviews/{company}')
+reviews = response2.json()
+st.dataframe(reviews)
