@@ -11,7 +11,17 @@ SideBarLinks()
 
 st.title('System Admin Home Page')
 
-if st.button('Test ML Models', 
+if st.button('Monitor Reviews', 
              type='primary',
              use_container_width=True):
-  st.switch_page('pages/21_ML_Model_Mgmt.py')
+  st.switch_page('pages/22_Monitor_Reviews.py')
+
+if st.button('App Requests', 
+             type='primary',
+             use_container_width=True):
+  st.switch_page('pages/22_Monitor_Reviews.py')
+
+if st.button('Update Analytics', 
+             type='primary',
+             use_container_width=True):
+  st.switch_page('pages/22_Monitor_Reviews.py')
