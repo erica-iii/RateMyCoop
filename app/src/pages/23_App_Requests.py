@@ -15,5 +15,5 @@ st.write('\n\n')
 if st.button('Requests', 
              type = 'primary',
              use_container_width=True):
-  results = requests.get('http://api:4000/rmcdb/monitorreviews').json()
+  results = requests.get('http://api:4000/sa/monitorreviews').json()
   st.dataframe(results)

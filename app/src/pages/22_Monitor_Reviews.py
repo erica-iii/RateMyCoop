@@ -15,5 +15,5 @@ st.write('\n\n')
 if st.button('Reviews', 
              type = 'primary',
              use_container_width=True):
-  results = requests.get('http://api:4000/systemadmin/studentInformation').json()
+  results = requests.get('http://api:4000/sa/studentInformation').json()
   st.dataframe(results)
