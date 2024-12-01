@@ -8,12 +8,12 @@ st.set_page_config(layout = 'wide')
 
 SideBarLinks()
 
-st.title('Monitor Reviews Page')
+st.title('Update Analytics Page')
 
 st.write('\n\n')
 
 if st.button('Requests', 
              type = 'primary',
              use_container_width=True):
-  results = requests.get('http://api:4000/sa/monitorreviews').json()
+  results = requests.get('http://api:4000/sa/analytics').json()
   st.dataframe(results)
