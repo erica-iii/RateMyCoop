@@ -10,7 +10,7 @@ from backend.ml_models.model01 import predict
 
 students = Blueprint('students', __name__)
 
-@students.route('/companies', methods=['GET'])
+@students.route('/students/companies', methods=['GET'])
 def get_companies():
 
     cursor = db.get_db().cursor()
