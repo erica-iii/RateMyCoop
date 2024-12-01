@@ -23,30 +23,32 @@ def get_companies():
     the_response.status_code = 200
     return the_response
 
-@students.route('/students/comp_reviews/<company_id>', methods=['GET'])
-def get_company_reviews(company_id):
-    query = f'''
+@students.route('/students/comp_reviews/<company_name>', methods=['GET'])
+def get_company_reviews(company_name):
+    query = '''
         SELECT 
             r.reviewid,
-            r.content AS review_content,
-            r.stars AS rating,
-            r.anonymous,
+            r.stars,
+            r.poster,
+            r.content,
             r.likes,
-            r.createdAt,
+            r.createdAt
         FROM 
             reviews r
+        JOIN 
+            coops cp ON r.coopId = cp.coopId
         JOIN
-            companies c ON r.reviewOf = c.companyId
+            companies c ON cp.company = c.companyId
         WHERE 
-            c.companyId = {str(company_id)}
+            c.companyName = %s
     '''
 
     cursor = db.get_db().cursor()
-    cursor.execute(query)
+    cursor.execute(query, (company_name,))
 
     theData = cursor.fetchall()
     
     the_response = make_response(jsonify(theData))
     the_response.status_code = 200
-    
+
     return the_response

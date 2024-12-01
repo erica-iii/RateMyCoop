@@ -10,8 +10,6 @@ import numpy as np
 from modules.nav import SideBarLinks
 import requests
 
-# Plans: make a drop down show first, whatever company from fakes put in is the one who's data gets called
-
 # Call the SideBarLinks from the nav module in the modules directory
 SideBarLinks()
 
@@ -21,8 +19,8 @@ st.header('Reviews')
 # You can access the session state to make a more customized/personalized app experience
 st.write(f"### Hi, {st.session_state['first_name']}. View Reviews.")
 
-response1 = requests.get('http://api:4000/s/students/companies')
-companies = response1.json()  
+response = requests.get('http://api:4000/s/students/companies')
+companies = response.json()  
 company_names = [company['companyName'] for company in companies] 
 
 company = st.selectbox(
@@ -31,6 +29,8 @@ company = st.selectbox(
 )
 st.write("Reviews for:", company)
 
-response2 = requests.get('http://api:4000/s/students/comp_reviews/{company}')
-reviews = response2.json()
+response = requests.get(f'http://api:4000/s/students/comp_reviews/{company}')
+reviews = response.json()
+st.write(response)
+st.write(reviews)
 st.dataframe(reviews)

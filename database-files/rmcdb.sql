@@ -543,3 +543,20 @@ ORDER BY
            GROUP BY jobTitle) AS meta
     GROUP BY companyName) AS meta2
     WHERE avgCoopRating > 3 AND avgCoopPay > 23;
+
+SELECT
+            r.reviewid,
+            r.content,
+            r.stars,
+            r.anonymous,
+            r.likes,
+            r.createdAt,
+            r.updatedAt
+        FROM
+            reviews r
+        JOIN
+            coops cp ON r.coopId = cp.coopId
+        JOIN
+            companies c ON cp.company = c.companyId
+        WHERE
+            c.companyName = 'MediPlus';
