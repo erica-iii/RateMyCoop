@@ -12,8 +12,8 @@ st.title('Monitor Reviews Page')
 
 st.write('\n\n')
 
-if st.button('Reviews', 
+if st.button('Requests', 
              type = 'primary',
              use_container_width=True):
-  results = requests.get('http://api:4000/systemadmin/studentInformation').json()
+  results = requests.get('http://api:4000/rmcdb/monitorreviews').json()
   st.dataframe(results)

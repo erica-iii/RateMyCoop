@@ -11,6 +11,11 @@ SideBarLinks()
 
 st.title('System Admin Home Page')
 
+if st.button('Review Student Information', 
+             type='primary',
+             use_container_width=True):
+  st.switch_page('pages/23_App_Requests.py')
+
 if st.button('Monitor Reviews', 
              type='primary',
              use_container_width=True):
