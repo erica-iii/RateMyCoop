@@ -67,7 +67,7 @@ def get_company_reviews(company_name):
 
 @students.route('/students/student_reviews/<student_id>', methods=['GET'])
 def get_student_reviews(student_id):
-    query = f'''
+    query = '''
         SELECT 
             reviewId,
             stars,
@@ -78,7 +78,7 @@ def get_student_reviews(student_id):
         FROM 
             reviews 
         WHERE
-            poster = {student_id}
+            poster = %s
     '''
 
     cursor = db.get_db().cursor()
@@ -144,11 +144,11 @@ def post_review():
     response.status_code = 200
     return response
 
-@students.route('/students/delete_review', methods='DELETE')
+@students.route('/students/delete_review/<int:review_id>', methods=['DELETE'])
 def delete_review(review_id):
     cursor = db.get_db().cursor()
     
-    cursor.execute(f"DELETE FROM reviews WHERE reviewId = {review_id}") 
+    cursor.execute("DELETE FROM reviews WHERE reviewId = %s", (review_id,)) 
     db.get_db().commit()
     
     return "Review deleted"

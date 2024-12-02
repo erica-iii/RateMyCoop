@@ -14,7 +14,7 @@ SideBarLinks()
 add_logo("assets/logo.png", height=400)
 
 # set up the page
-st.markdown("# Manage My Reviews and Comments")     
+st.markdown("# Manage My Reviews and Comments")   
 
 options = requests.get(f'http://api:4000/s/students/student_reviews/{1}').json()
 
@@ -24,7 +24,7 @@ for i in options:
     ids.append(int(i['reviewId'])) 
 
 
-review_id = st.selectbox('reviewId', 
+review_id = st.selectbox('Review To Delete', 
                        ids,                  
                     label_visibility="visible")
 
@@ -37,3 +37,7 @@ if st.button("Delete",
         st.write('Review deleted successfully!')
     else:
         st.write(f'Delete failed :( {response.status_code}')
+
+ellies_reviews = requests.get(f'http://api:4000/s/students/student_reviews/{1}')
+reviews = ellies_reviews.json()
+st.table(reviews)
