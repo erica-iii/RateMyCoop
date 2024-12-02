@@ -39,7 +39,7 @@ def get_reviews():
 def get_company_reviews(company_name):
     query = '''
         SELECT 
-            r.reviewid,
+            r.reviewId,
             r.stars,
             r.poster,
             r.content,
@@ -65,14 +65,39 @@ def get_company_reviews(company_name):
 
     return the_response
 
+@students.route('/students/student_reviews/<student_id>', methods=['GET'])
+def get_student_reviews(student_id):
+    query = f'''
+        SELECT 
+            reviewId,
+            stars,
+            poster,
+            content,
+            likes,
+            createdAt
+        FROM 
+            reviews 
+        WHERE
+            poster = {student_id}
+    '''
+
+    cursor = db.get_db().cursor()
+    cursor.execute(query, (student_id,))
+
+    theData = cursor.fetchall()
+    
+    the_response = make_response(jsonify(theData))
+    the_response.status_code = 200
+
+    return the_response
+
 @students.route('/students/post_review', methods=['POST'])
 def post_review():
-    # In a POST request, there is a 
-    # collecting data from the request object 
+
+    # collecting the data
     the_data = request.json
     current_app.logger.info(the_data)
 
-    #extracting the variable
     poster = 1
     company = the_data['company']
     job_title = the_data['job_title']
@@ -80,6 +105,7 @@ def post_review():
     stars = the_data['stars']
     anonymous = the_data['anonymous']
     
+    # inserting data
     cursor = db.get_db().cursor()
 
     cursor.execute("SELECT companyId FROM companies WHERE companyName = %s", (company,))
@@ -104,6 +130,7 @@ def post_review():
 
     coop_id = coop['coopId']
 
+    # running query to insert review 
     query = """
         INSERT INTO reviews (poster, reviewOf, anonymous, content, stars, coopId)
         VALUES (%s, %s, %s, %s, %s, %s)
@@ -116,5 +143,16 @@ def post_review():
     response = make_response("Successfully posted review!")
     response.status_code = 200
     return response
+
+@students.route('/students/delete_review', methods='DELETE')
+def delete_review(review_id):
+    cursor = db.get_db().cursor()
+    
+    cursor.execute(f"DELETE FROM reviews WHERE reviewId = {review_id}") 
+    db.get_db().commit()
+    
+    return "Review deleted"
+
+
 
 

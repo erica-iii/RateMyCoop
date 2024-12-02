@@ -76,7 +76,7 @@ with st.form("add_review_form"):
                 st.error(f"Error connecting to server: {str(e)}")
 
         # test to see if review is really there
-        response = requests.get(f'http://api:4000/s/students/reviews')
-        reviews = response.json()
-        st.table(reviews)  
+        #response = requests.get(f'http://api:4000/s/students/reviews')
+        #reviews = response.json()
+        ##st.table(reviews)  
      
