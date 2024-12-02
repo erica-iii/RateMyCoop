@@ -14,37 +14,10 @@ from backend.db_connection import db
 # routes.
 systemadmin = Blueprint('systemadmin', __name__)
 
-#------------------------------------------------------------
-# Get all the reviews from the reviews table
-@systemadmin.route('/monitorreviews', methods=['GET'])
-def get_reviews():
-    query = '''
-        SELECT * FROM reviews
-    '''
-    
-    # get a cursor object from the database
-    cursor = db.get_db().cursor()
-
-    # use cursor to query the database for a list of products
-    cursor.execute(query)
-
-    # fetch all the data from the cursor
-    # The cursor will return the data as a 
-    # Python Dictionary
-    theData = cursor.fetchall()
-
-    # Create a HTTP Response object and add results of the query to it
-    # after "jasonify"-ing it.
-    response = make_response(jsonify(theData))
-    # set the proper HTTP Status code of 200 (meaning all good)
-    response.status_code = 200
-    # send the response back to the client
-    return response
-
 # ------------------------------------------------------------
 # Get the student information that is relevant to the admin
 @systemadmin.route('/studentInformation')
-def get_most_pop_products():
+def get_student_information():
 
     query = '''
         SELECT studentId, activityStatus, statSharing
@@ -57,3 +30,21 @@ def get_most_pop_products():
     response = make_response(jsonify(theData))
     response.status_code = 200
     return response
+
+# Update the analytics
+@systemadmin.route('/analytics', methods = ['PUT'])
+def update_analytics():
+    product_info = request.json
+    current_app.logger.info(product_info)
+
+    return "Success"
+
+# Delete any innapropriate reviews
+@systemadmin.route('/monitorReviews', methods=['DELETE'])
+def monitor_reviews(review_id):
+    cursor = db.get_db().cursor()
+    
+    cursor.execute("DELETE FROM reviews WHERE reviewId = %s", (review_id,)) 
+    db.get_db().commit()
+    
+    return "Review deleted"
