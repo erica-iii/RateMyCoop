@@ -22,6 +22,19 @@ def get_companies():
     the_response.status_code = 200
     return the_response
 
+@students.route('/students/reviews', methods=['GET'])
+def get_reviews():
+    cursor = db.get_db().cursor()
+    cursor.execute('''SELECT * FROM reviews
+    ''')
+    
+    theData = cursor.fetchall()
+    
+    the_response = make_response(jsonify(theData))
+    the_response.status_code = 200
+    return the_response
+
+
 @students.route('/students/comp_reviews/<company_name>', methods=['GET'])
 def get_company_reviews(company_name):
     query = '''
@@ -52,26 +65,30 @@ def get_company_reviews(company_name):
 
     return the_response
 
-@students.route('/students/new_review', methods=['POST'])
-def add_review():
-    data = request.json
+@students.route('/students/post_review', methods=['POST'])
+def post_review():
+    # In a POST request, there is a 
+    # collecting data from the request object 
+    the_data = request.json
+    current_app.logger.info(the_data)
 
-    poster = data.get('poster')
-    company_name = data.get('review_of')
-    content = data.get('content')
-    stars = data.get('stars')
-    job_title = data.get('coop')
-    anonymous = data.get('anonymous')
-
+    #extracting the variable
+    poster = 1
+    company = the_data['company']
+    job_title = the_data['job_title']
+    content = the_data['content']
+    stars = the_data['stars']
+    anonymous = the_data['anonymous']
+    
     cursor = db.get_db().cursor()
 
-    cursor.execute("SELECT companyId FROM companies WHERE companyName = %s", (company_name,))
+    cursor.execute("SELECT companyId FROM companies WHERE companyName = %s", (company,))
     company = cursor.fetchone()
 
     if not company:
-        cursor.execute("INSERT INTO companies (companyName, activityStatus) VALUES (%s, %s)", (company_name, 1))
+        cursor.execute("INSERT INTO companies (companyName, activityStatus) VALUES (%s, %s)", (company, 1))
         db.get_db().commit()
-        cursor.execute("SELECT companyId FROM companies WHERE companyName = %s", (company_name,))
+        cursor.execute("SELECT companyId FROM companies WHERE companyName = %s", (company,))
         company = cursor.fetchone()
 
     company_id = company['companyId']
@@ -96,6 +113,8 @@ def add_review():
     cursor.execute(query, (poster, company_id, anonymous, content, stars, coop_id))
     db.get_db().commit()
     
-    return jsonify({"message": "Review successfully submitted"}), 201
+    response = make_response("Successfully posted review!")
+    response.status_code = 200
+    return response
 
 

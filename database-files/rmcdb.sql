@@ -544,30 +544,6 @@ ORDER BY
     GROUP BY companyName) AS meta2
     WHERE avgCoopRating > 3 AND avgCoopPay > 23;
 
-SELECT
-            r.reviewid,
-            r.content,
-            r.stars,
-            r.anonymous,
-            r.likes,
-            r.createdAt,
-            r.updatedAt
-        FROM
-            reviews r
-        JOIN
-            coops cp ON r.coopId = cp.coopId
-        JOIN
-            companies c ON cp.company = c.companyId
-        WHERE
-            c.companyName = 'MediPlus';
-
-INSERT INTO reviews (poster, reviewOf, anonymous, content, stars, coopId)
-VALUES (1, 1, 0, 'good time', 4, 1);
-
-DELETE FROM reviews WHERE content = 'good time' AND reviewOf = 1 AND poster = 1;
-
-
-SELECT * FROM reviews;
 
 
 
