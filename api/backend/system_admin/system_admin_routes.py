@@ -66,10 +66,32 @@ def delete_reviews(review_id):
     
     return make_response("Review deleted", 200)
 
-# Update the analytics
-@systemadmin.route('/analytics', methods = ['PUT'])
-def update_analytics():
-    product_info = request.json
-    current_app.logger.info(product_info)
+# get all the reviews
+@systemadmin.route('/requests', methods=['GET'])
+def get_reviews():
+    query = '''
+        SELECT * FROM requests
+    '''
 
-    return "Success"
+    cursor = db.get_db().cursor()
+    cursor.execute(query)
+
+    theData = cursor.fetchall()
+    
+    the_response = make_response(jsonify(theData))
+    the_response.status_code = 200
+
+    return the_response
+
+# Update the analytics
+@systemadmin.route('/updateRequests/<int:request_id>', methods = ['PUT'])
+def update_requests(request_id):
+    cursor = db.get_db().cursor()
+
+    updated_data = request.json
+    approved = updated_data.get('requestStatus')
+
+    cursor.execute('UPDATE requests SET requestStatus = %s WHERE requestId = %s', (request_id))
+    db.get_db().commit()
+    
+    return make_response("Request Updated", 200)
