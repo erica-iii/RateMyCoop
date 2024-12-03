@@ -202,7 +202,6 @@ CREATE TABLE system_updates (
     postDate DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     updatedBy int,
     PRIMARY KEY (updateId),
-    CONSTRAINT fk_su1 FOREIGN KEY (updatedBy) REFERENCES system_admins (adminId) ON UPDATE cascade ON DELETE cascade
 );
 
 CREATE INDEX id on system_updates (updateId);
