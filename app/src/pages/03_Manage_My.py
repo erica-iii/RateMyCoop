@@ -14,7 +14,7 @@ SideBarLinks()
 add_logo("assets/logo.png", height=400)
 
 # set up the page
-st.markdown("# Manage My Reviews and Comments")   
+st.markdown("# Manage My Posts")   
 
 options = requests.get(f'http://api:4000/s/students/student_reviews/{1}').json()
 
@@ -41,3 +41,5 @@ if st.button("Delete",
 ellies_reviews = requests.get(f'http://api:4000/s/students/student_reviews/{1}')
 reviews = ellies_reviews.json()
 st.table(reviews)
+
+st.markdown("# Manage My Posts")  

@@ -24,7 +24,7 @@ if st.button('Post a Review',
              use_container_width=True):
   st.switch_page('pages/02_Writing_Review.py')
 
-if st.button('Manage My Reviews/Comments', 
+if st.button('Manage My Posts', 
              type='primary',
              use_container_width=True):
   st.switch_page('pages/03_Manage_My.py')
