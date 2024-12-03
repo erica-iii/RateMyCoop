@@ -1,6 +1,10 @@
 import logging
 logger = logging.getLogger(__name__)
 import streamlit as st
+from streamlit_extras.app_logo import add_logo
+import pandas as pd
+import pydeck as pdk
+from urllib.error import URLError
 from modules.nav import SideBarLinks
 import requests
 
@@ -10,6 +14,16 @@ SideBarLinks()
 
 st.markdown("# Add a System Update")
 
+data = {} 
+try:
+  data = requests.get('http://api:4000/sa/allUpdates').json() 
+except:
+  st.write("**Important**: Could not connect to sample api, so using dummy data.")
+  data = {"a":{"b": "123", "c": "hello"}, "z": {"b": "456", "c": "goodbye"}}
+
+st.dataframe(data)
+
+'''
 # Creating the form for submitting a system update
 with st.form("add_system_update_form"):
     # Input fields for system update details
@@ -47,3 +61,4 @@ with st.form("add_system_update_form"):
         requests = requests.get('http://api:4000/sa/allUpdates')
         requests = requests.json()
         st.table(requests)
+'''

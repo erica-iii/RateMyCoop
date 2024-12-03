@@ -160,7 +160,6 @@ CREATE TABLE comments (
 
 CREATE INDEX id ON comments (commentId);
 
-
 -- creating advisors table
 DROP TABLE IF EXISTS system_admins;
 CREATE TABLE system_admins(
@@ -194,15 +193,14 @@ CREATE TABLE requests (
 
 CREATE INDEX id ON requests (requestId);
 
---creating a system updates table
+-- creating a system updates table
 DROP TABLE IF EXISTS system_updates;
 CREATE TABLE system_updates (
     updateId int AUTO_INCREMENT NOT NULL,
     details text NOT NULL,
     postDate DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     updatedBy int,
-    PRIMARY KEY (updateId),
-    CONSTRAINT fk_su1 FOREIGN KEY (updatedBy) REFERENCES system_admins (adminId) ON UPDATE cascade ON DELETE cascade
+    PRIMARY KEY (updateId)
 );
 
 CREATE INDEX id on system_updates (updateId);
