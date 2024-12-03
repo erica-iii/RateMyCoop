@@ -32,7 +32,7 @@ def get_student_information():
     return response
 
 # get all the reviews
-@systemadmin.route('/reviews', methods=['GET'])
+@systemadmin.route('/studentReviews', methods=['GET'])
 def get_reviews():
     query = '''
         SELECT 
@@ -68,7 +68,7 @@ def delete_reviews(review_id):
 
 # get all the reviews
 @systemadmin.route('/requests', methods=['GET'])
-def get_reviews():
+def get_requests():
     query = '''
         SELECT * FROM requests
     '''
@@ -83,14 +83,20 @@ def get_reviews():
 
     return the_response
 
+
 # Update the analytics
 @systemadmin.route('/updateRequests/<int:request_id>', methods = ['PUT'])
 def update_requests(approved, request_id):
+    data = request.json
+    current_app.logger.info(data)
+
+    approved = data.get('requestStatus')
+
+    query = """
+        UPDATE requests SET requestStatus = %s WHERE requestId = %s'
+    """
     cursor = db.get_db().cursor()
-
-    approved = request.json.get('requestStatus')
-
-    cursor.execute('UPDATE requests SET requestStatus = %s WHERE requestId = %s', (approved, request_id))
+    cursor.exdcute(query, (approved, request_id))
     db.get_db().commit()
     
     return make_response("Request Updated", 200)

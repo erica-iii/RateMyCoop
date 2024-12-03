@@ -33,7 +33,7 @@ if selected_request:
 
   if st.button('Update Request'):
     updated_data = {
-    'resolveStatus': approved
+    'requestStatus': approved
     }
 
     response = requests.put(f'http://api:4000/sa/updateRequests/{request_id}', json=updated_data)
