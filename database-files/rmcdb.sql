@@ -194,6 +194,19 @@ CREATE TABLE requests (
 
 CREATE INDEX id ON requests (requestId);
 
+--creating a system updates table
+DROP TABLE IF EXISTS system_updates;
+CREATE TABLE system_updates (
+    updateId int AUTO_INCREMENT NOT NULL,
+    details text,
+    postDate DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updatedBy int,
+    PRIMARY KEY (updateId),
+    CONSTRAINT fk_su1 FOREIGN KEY (updatedBy) REFERENCES system_admins (adminId) ON UPDATE cascase ON DELETE cascade
+);
+
+CREATE INDEX id on system_updates (updateId);
+
 -- Sample data for each table
 INSERT INTO advisors (firstName, lastName, email, phone, passwordHash, username, activityStatus)
 VALUES
@@ -261,6 +274,15 @@ VALUES
 ('Request to update student GPA system', 0),
 ('Issue with company login process', 1),
 ('Request for new coop job posting template', 0);
+
+-- Inserting sample data for system_updates
+INSERT INTO system_updates (details, updatedBy)
+VALUES
+('System update to improve performance', 1),
+('Security patch applied to fix vulnerabilities', 2),
+('New feature added to the user interface', 1),
+('Database migration to support new version', 2),
+('Bug fix in payment gateway integration', 1);
 
 # CRUD Statements for Persona 1
     # user story 1.1
