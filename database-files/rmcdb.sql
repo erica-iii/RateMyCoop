@@ -194,14 +194,14 @@ CREATE TABLE requests (
 
 CREATE INDEX id ON requests (requestId);
 
---creating a system updates table
+-- creating a system updates table
 DROP TABLE IF EXISTS system_updates;
 CREATE TABLE system_updates (
     updateId int AUTO_INCREMENT NOT NULL,
     details text NOT NULL,
     postDate DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
     updatedBy int,
-    PRIMARY KEY (updateId),
+    PRIMARY KEY (updateId)
 );
 
 CREATE INDEX id on system_updates (updateId);
