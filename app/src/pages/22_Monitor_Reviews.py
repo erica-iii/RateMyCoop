@@ -4,7 +4,6 @@ import streamlit as st
 from modules.nav import SideBarLinks
 import requests
 
-st.set_page_config(layout = 'wide')
 
 SideBarLinks()
 
@@ -13,11 +12,28 @@ st.title('Monitor Reviews Page')
 st.write('\n\n')
 
 
-data = {} 
-try:
-  data = requests.get('http://api:4000/sa/monitorreviews').json() 
-except:
-  st.write("**Important**: Could not connect to sample api, so using dummy data.")
-  data = {"a":{"b": "123", "c": "hello"}, "z": {"b": "456", "c": "goodbye"}}
+# set up the page
+st.markdown("## Monitor to see if there are any inappropriate reviews")   
 
-st.dataframe(data)
+options = requests.get(f'http://api:4000/sa/reviews').json()
+
+ids = [int(review['reviewId']) for review in options]
+
+
+review_id = st.selectbox('Review To Delete', 
+                       ids,                  
+                    label_visibility="visible")
+
+if st.button("Delete", 
+            type='primary', 
+            use_container_width=True):
+    response = requests.delete(f'http://api:4000/sa/delete_review/{review_id}')
+    
+    if response.status_code == 200 or response.status_code == 204:
+        st.write('Review deleted successfully!')
+    else:
+        st.write(f'Delete failed :( {response.status_code}')
+
+reviews = requests.get(f'http://api:4000/sa/reviews')
+reviews = reviews.json()
+st.table(reviews)
