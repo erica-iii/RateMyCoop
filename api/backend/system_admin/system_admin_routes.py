@@ -66,6 +66,7 @@ def delete_reviews(review_id):
     
     return make_response("Review deleted", 200)
 
+
 # get all the reviews
 @systemadmin.route('/requests', methods=['GET'])
 def get_requests():
@@ -90,16 +91,22 @@ def update_requests(request_id):
     data = request.json
     current_app.logger.info(data)
 
+    if 'resolveStatus' not in data:
+        return make_response("Missing 'resolveStatus' field", 400)
+
     approved = data.get('resolveStatus')
 
     query = """
         UPDATE requests SET resolveStatus = %s WHERE requestId = %s'
     """
-    cursor = db.get_db().cursor()
-    cursor.exdcute(query, (approved, request_id))
-    db.get_db().commit()
-    
-    return make_response("Request Updated", 200)
+    try:
+        cursor = db.get_db().cursor()
+        cursor.execute(query, (approved, request_id))
+        db.get_db().commit()
+        return make_response("Request Updated", 200)
+    except Exception as e:
+        current_app.logger.error(f"Error updating request: {e}")
+        return make_response("Internal Server Error", 500)
 
 '''
 @systemadmin.route('/updateAnalytics', methods=['POST'])
