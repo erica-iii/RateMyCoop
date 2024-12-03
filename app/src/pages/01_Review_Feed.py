@@ -31,13 +31,22 @@ st.write("Reviews for:", company)
 
 response = requests.get(f'http://api:4000/s/students/comp_reviews/{company}')
 reviews = response.json()
-#st.table(reviews)
-#st.write('Want to leave a like?')
+
 #st.write('Want to leave a comment?')
 
 if reviews:
     for review in reviews:
-        st.subheader(f"Review by {review['poster']}")
+        # fetch poster's name
+        poster_response = requests.get(f'http://api:4000/s/students/poster_name/{review["reviewId"]}')
+
+        if poster_response.status_code == 200:
+            poster_data = poster_response.json()
+            name = poster_data.get('posterName', 'Unknown')
+        else:
+            name = 'Unknown'
+
+        # display review details
+        st.subheader(f"Review by: {name}")
         st.write(f"Stars: {review['stars']}")
         st.write(f"Content: {review['content']}")
         st.write(f"Likes: {review['likes']}")
@@ -52,4 +61,3 @@ if reviews:
         st.write("---")  
 else:
     st.write("No reviews available for this company.")
-
