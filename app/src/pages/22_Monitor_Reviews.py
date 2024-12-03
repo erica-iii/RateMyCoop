@@ -36,4 +36,4 @@ if st.button("Delete",
 
 reviews = requests.get(f'http://api:4000/sa/studentReviews')
 reviews = reviews.json()
-st.table(reviews)
+st.table(reviews) 

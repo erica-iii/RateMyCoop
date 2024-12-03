@@ -183,7 +183,7 @@ CREATE INDEX id ON system_admins (adminId);
 DROP TABLE IF EXISTS requests;
 CREATE TABLE requests (
     requestId int AUTO_INCREMENT NOT NULL,
-    details text,
+    details text NOT NULL,
     resolveStatus bool DEFAULT 0,
     companyId int,
     studentId int,
