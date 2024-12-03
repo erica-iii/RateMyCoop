@@ -152,6 +152,28 @@ def delete_review(review_id):
     db.get_db().commit()
     
     return "Review deleted"
+    
+@students.route('/students/like_review/<int:review_id>', methods=['PUT'])
+def like_review(review_id):
+    cursor = db.get_db().cursor()
+    
+    # Update the like count
+    query = """
+        UPDATE reviews
+        SET likes = likes + 1
+        WHERE reviewId = %s
+    """
+    cursor.execute(query, (review_id,))
+    
+    # Check if any row was updated
+    if cursor.rowcount == 0:
+        return make_response(jsonify({'error': 'Review not found'}), 404)
+    
+    db.get_db().commit()
+    
+    response = make_response(jsonify({'message': 'Like count updated successfully'}), 200)
+    return response
+
 
 
 

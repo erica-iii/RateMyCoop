@@ -31,4 +31,25 @@ st.write("Reviews for:", company)
 
 response = requests.get(f'http://api:4000/s/students/comp_reviews/{company}')
 reviews = response.json()
-st.table(reviews)
+#st.table(reviews)
+#st.write('Want to leave a like?')
+#st.write('Want to leave a comment?')
+
+if reviews:
+    for review in reviews:
+        st.subheader(f"Review by {review['poster']}")
+        st.write(f"Stars: {review['stars']}")
+        st.write(f"Content: {review['content']}")
+        st.write(f"Likes: {review['likes']}")
+        st.write(f"Posted on: {review['createdAt']}")
+
+        if st.button(f"Like this review ({review['reviewId']})", key=f"like-{review['reviewId']}"):
+            like_response = requests.put(f'http://api:4000/s/students/like_review/{review["reviewId"]}')
+            if like_response.status_code == 200:
+                st.success("You liked this review!")
+            else:
+                st.error("Failed to like the review.")
+        st.write("---")  
+else:
+    st.write("No reviews available for this company.")
+
