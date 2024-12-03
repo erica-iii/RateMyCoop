@@ -29,11 +29,7 @@ if selected_request:
     approved = st.checkbox('Approved', value=selected_request.get('resolveStatus', False))
 
     if st.button('Update Request'):
-        updated_data = {
-        'resolveStatus': approved
-        }
-
-        response = requests.put(f'http://api:4000/sa/updateRequests/{request_id}', json=updated_data)
+        response = requests.put(f'http://api:4000/sa/updateRequests/{request_id}', json={'resolveStatus': approved})
 
         if response.status_code == 200:
             st.write('Request updated successfully')

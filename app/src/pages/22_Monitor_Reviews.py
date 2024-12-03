@@ -15,7 +15,7 @@ st.write('\n\n')
 # set up the page
 st.markdown("## Monitor to see if there are any inappropriate reviews")   
 
-options = requests.get(f'http://api:4000/sa/reviews').json()
+options = requests.get(f'http://api:4000/sa/studentReviews').json()
 
 ids = [int(review['reviewId']) for review in options]
 
@@ -34,6 +34,6 @@ if st.button("Delete",
     else:
         st.write(f'Delete failed :( {response.status_code}')
 
-reviews = requests.get(f'http://api:4000/sa/reviews')
+reviews = requests.get(f'http://api:4000/sa/studentReviews')
 reviews = reviews.json()
 st.table(reviews)
