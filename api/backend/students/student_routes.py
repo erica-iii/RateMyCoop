@@ -10,6 +10,7 @@ from backend.db_connection import db
 students = Blueprint('students', __name__)
 
 @students.route('/students/companies', methods=['GET'])
+# gets all company names
 def get_companies():
 
     cursor = db.get_db().cursor()
@@ -23,6 +24,7 @@ def get_companies():
     return the_response
 
 @students.route('/students/reviews', methods=['GET'])
+# gets all reviews
 def get_reviews():
     cursor = db.get_db().cursor()
     cursor.execute('''SELECT * FROM reviews
@@ -36,6 +38,7 @@ def get_reviews():
 
 
 @students.route('/students/comp_reviews/<company_name>', methods=['GET'])
+# gets all reviews for a specific company by name
 def get_company_reviews(company_name):
     query = '''
         SELECT 
@@ -66,6 +69,7 @@ def get_company_reviews(company_name):
     return the_response
 
 @students.route('/students/poster_name/<int:review_id>', methods=['GET'])
+# gets the name of a review poster based on review id
 def get_poster(review_id):
     query = """
         SELECT 
@@ -92,6 +96,7 @@ def get_poster(review_id):
 
 
 @students.route('/students/student_reviews/<student_id>', methods=['GET'])
+# gets all reviews written by a specific student
 def get_student_reviews(student_id):
     query = '''
         SELECT 
@@ -118,6 +123,7 @@ def get_student_reviews(student_id):
     return the_response
 
 @students.route('/students/post_review', methods=['POST'])
+# posts a review to database
 def post_review():
 
     # collecting the data
@@ -171,6 +177,7 @@ def post_review():
     return response
 
 @students.route('/students/delete_review/<int:review_id>', methods=['DELETE'])
+# deletes a review from database
 def delete_review(review_id):
     cursor = db.get_db().cursor()
     
@@ -180,6 +187,7 @@ def delete_review(review_id):
     return "Review deleted"
     
 @students.route('/students/like_review/<int:review_id>', methods=['PUT'])
+# updates like count on a review
 def like_review(review_id):
     cursor = db.get_db().cursor()
     
@@ -199,6 +207,35 @@ def like_review(review_id):
     
     response = make_response(jsonify({'message': 'Like count updated successfully'}), 200)
     return response
+
+@students.route('/students/edit_review/<int:review_id>', methods=['PUT'])
+# edits review in database
+def edit_review(review_id):
+    # collecting the data from the request
+    review_data = request.json
+    content = review_data.get('content')
+    stars = review_data.get('stars')
+    
+    if not content or not stars:
+        return jsonify({'error': 'Content and Stars are required'}), 400
+
+    cursor = db.get_db().cursor()
+    
+    # updating the review in the database
+    query = """
+        UPDATE reviews
+        SET content = %s, stars = %s
+        WHERE reviewId = %s
+    """
+    cursor.execute(query, (content, stars, review_id))
+    
+    if cursor.rowcount == 0:
+        return jsonify({'error': 'Review not found'}), 404
+
+    db.get_db().commit()
+    
+    return jsonify({'message': 'Review updated successfully'}), 200
+
 
 
 
