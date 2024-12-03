@@ -20,7 +20,7 @@ options = requests.get(f'http://api:4000/sa/reviews').json()
 ids = [int(review['reviewId']) for review in options]
 
 
-review_id = st.selectbox('Review To Delete', 
+review_id = st.selectbox('Review ID To Delete', 
                        ids,                  
                     label_visibility="visible")
 

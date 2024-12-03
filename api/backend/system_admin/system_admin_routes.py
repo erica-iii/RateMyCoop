@@ -94,3 +94,56 @@ def update_requests(approved, request_id):
     db.get_db().commit()
     
     return make_response("Request Updated", 200)
+
+
+@systemadmin.route('/updateAnalytics', methods=['POST'])
+def update_analytics():
+
+    # collecting the data
+    the_data = request.json
+    current_app.logger.info(the_data)
+
+    poster = 1
+    company = the_data['company']
+    job_title = the_data['job_title']
+    content = the_data['content']
+    stars = the_data['stars']
+    anonymous = the_data['anonymous']
+    
+    # inserting data
+    cursor = db.get_db().cursor()
+
+    cursor.execute("SELECT companyId FROM companies WHERE companyName = %s", (company,))
+    company = cursor.fetchone()
+
+    if not company:
+        cursor.execute("INSERT INTO companies (companyName, activityStatus) VALUES (%s, %s)", (company, 1))
+        db.get_db().commit()
+        cursor.execute("SELECT companyId FROM companies WHERE companyName = %s", (company,))
+        company = cursor.fetchone()
+
+    company_id = company['companyId']
+
+    cursor.execute("SELECT coopId FROM coops WHERE jobTitle = %s AND company = %s", (job_title, company_id))
+    coop = cursor.fetchone()
+
+    if not coop:
+        cursor.execute("INSERT INTO coops (jobTitle, company) VALUES (%s, %s)", (job_title, company_id))
+        db.get_db().commit()
+        cursor.execute("SELECT coopId FROM coops WHERE jobTitle = %s AND company = %s", (job_title, company_id))
+        coop = cursor.fetchone()
+
+    coop_id = coop['coopId']
+
+    # running query to insert review 
+    query = """
+        INSERT INTO reviews (poster, reviewOf, anonymous, content, stars, coopId)
+        VALUES (%s, %s, %s, %s, %s, %s)
+    """
+    cursor = db.get_db().cursor()
+
+    cursor.execute(query, (poster, company_id, anonymous, content, stars, coop_id))
+    db.get_db().commit()
+    
+    response = make_response("Successfully posted review!")
+    response.status
