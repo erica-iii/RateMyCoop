@@ -160,7 +160,6 @@ CREATE TABLE comments (
 
 CREATE INDEX id ON comments (commentId);
 
-
 -- creating advisors table
 DROP TABLE IF EXISTS system_admins;
 CREATE TABLE system_admins(
