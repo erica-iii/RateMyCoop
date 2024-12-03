@@ -96,5 +96,7 @@ if response.status_code == 200:
 else:
     st.error("Failed to fetch reviews.")
 
+st.divider()
 
-
+if st.button('Return home'):
+    st.switch_page('pages/00_Student_Home.py')

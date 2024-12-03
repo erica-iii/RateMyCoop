@@ -80,3 +80,5 @@ with st.form("add_review_form"):
         reviews = response.json()
         st.table(reviews)  
      
+if st.button('Return home'):
+    st.switch_page('pages/00_Student_Home.py')
