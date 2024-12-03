@@ -88,6 +88,8 @@ def get_reviews():
 def update_requests(approved, request_id):
     cursor = db.get_db().cursor()
 
+    approved = request.json.get('requestStatus')
+
     cursor.execute('UPDATE requests SET requestStatus = %s WHERE requestId = %s', (approved, request_id))
     db.get_db().commit()
     

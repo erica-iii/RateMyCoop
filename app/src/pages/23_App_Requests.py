@@ -36,7 +36,7 @@ if selected_request:
     'resolveStatus': approved
     }
 
-    response = requests.put(f'http://api:4000/sa/updateRequests/{approved, request_id}', json=updated_data)
+    response = requests.put(f'http://api:4000/sa/updateRequests/{request_id}', json=updated_data)
 
     if response.status_code == 200:
       st.write('Request updated successfully')
