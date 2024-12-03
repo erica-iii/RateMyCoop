@@ -32,8 +32,8 @@ def get_student_information():
     return response
 
 # get all the reviews
-@systemadmin.route('/students/reviews/<student_id>', methods=['GET'])
-def get_student_reviews(student_id):
+@systemadmin.route('/reviews', methods=['GET'])
+def get_reviews():
     query = '''
         SELECT 
             reviewId,
@@ -44,12 +44,10 @@ def get_student_reviews(student_id):
             createdAt
         FROM 
             reviews 
-        WHERE
-            poster = %s
     '''
 
     cursor = db.get_db().cursor()
-    cursor.execute(query, (student_id,))
+    cursor.execute(query)
 
     theData = cursor.fetchall()
     
@@ -59,8 +57,8 @@ def get_student_reviews(student_id):
     return the_response
 
 # Delete any innapropriate reviews
-@systemadmin.route('/monitorReviews/delete_review/<int:review_id>', methods=['DELETE'])
-def monitor_reviews(review_id):
+@systemadmin.route('/delete_review/<int:review_id>', methods=['DELETE'])
+def delete_reviews(review_id):
     cursor = db.get_db().cursor()
     
     cursor.execute("DELETE FROM reviews WHERE reviewId = %s", (review_id,)) 
