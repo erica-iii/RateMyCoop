@@ -14,22 +14,24 @@ def AboutPageNav():
     st.sidebar.page_link("pages/30_About.py", label="About", icon="🧠")
 
 
-#### ------------------------ Examples for Role of pol_strat_advisor ------------------------
-def PolStratAdvHomeNav():
+#### ------------------------ navigation fro student role ------------------------
+def StudentHomeNav():
     st.sidebar.page_link(
-        "pages/00_Pol_Strat_Home.py", label="Political Strategist Home", icon="👤"
+        "pages/00_Student_Home.py", label="Student Home", icon="👤"
     )
 
 
-def WorldBankVizNav():
+def ReviewFeedNav():
     st.sidebar.page_link(
-        "pages/01_World_Bank_Viz.py", label="World Bank Visualization", icon="🏦"
+        "pages/01_Review_Feed.py", label="View Reviews", icon="👁️"
     )
 
 
-def MapDemoNav():
-    st.sidebar.page_link("pages/02_Map_Demo.py", label="Map Demonstration", icon="🗺️")
+def PostNav():
+    st.sidebar.page_link("pages/02_Writing_Review.py", label="Post a Review", icon="📝")
 
+def ManageNav():
+    st.sidebar.page_link("pages/03_Manage_My.py", label="Manage Posts", icon="⚙️")
 
 ## ------------------------ Examples for Role of usaid_worker ------------------------
 def ApiTestNav():
@@ -77,11 +79,12 @@ def SideBarLinks(show_home=False):
     # Show the other page navigators depending on the users' role.
     if st.session_state["authenticated"]:
 
-        # Show World Bank Link and Map Demo Link if the user is a political strategy advisor role.
-        if st.session_state["role"] == "pol_strat_advisor":
-            PolStratAdvHomeNav()
-            WorldBankVizNav()
-            MapDemoNav()
+        # Show options for students.
+        if st.session_state["role"] == "student":
+            StudentHomeNav()
+            ReviewFeedNav()
+            PostNav()
+            ManageNav()
 
         # If the user role is usaid worker, show the Api Testing page
         if st.session_state["role"] == "usaid_worker":
