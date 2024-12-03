@@ -65,6 +65,32 @@ def get_company_reviews(company_name):
 
     return the_response
 
+@students.route('/students/poster_name/<int:review_id>', methods=['GET'])
+def get_poster(review_id):
+    query = """
+        SELECT 
+            CASE 
+                WHEN r.anonymous = 0 THEN s.firstName
+                ELSE 'Anonymous' 
+            END AS posterName
+        FROM 
+            reviews r
+        LEFT JOIN 
+            students s ON r.poster = s.studentId
+        WHERE 
+            r.reviewId = %s
+    """
+
+    cursor = db.get_db().cursor()
+    cursor.execute(query, (review_id,))
+    theData = cursor.fetchone()
+
+    if theData:
+        return jsonify({'posterName': theData['posterName']}), 200
+    else:
+        return jsonify({'error': 'Review not found'}), 404
+
+
 @students.route('/students/student_reviews/<student_id>', methods=['GET'])
 def get_student_reviews(student_id):
     query = '''
@@ -152,6 +178,28 @@ def delete_review(review_id):
     db.get_db().commit()
     
     return "Review deleted"
+    
+@students.route('/students/like_review/<int:review_id>', methods=['PUT'])
+def like_review(review_id):
+    cursor = db.get_db().cursor()
+    
+    # update the like count
+    query = """
+        UPDATE reviews
+        SET likes = likes + 1
+        WHERE reviewId = %s
+    """
+    cursor.execute(query, (review_id,))
+    
+    # check if row was updated
+    if cursor.rowcount == 0:
+        return make_response(jsonify({'error': 'Review not found'}), 404)
+    
+    db.get_db().commit()
+    
+    response = make_response(jsonify({'message': 'Like count updated successfully'}), 200)
+    return response
+
 
 
 
