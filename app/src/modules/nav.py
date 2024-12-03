@@ -56,7 +56,7 @@ def AdminPageNav():
     st.sidebar.page_link('pages/25_Student_Information.py', label='Student Information', icon = '📝')
     st.sidebar.page_link('pages/22_Monitor_Reviews.py', label='Monitor Reviews', icon = '⚙️')
     st.sidebar.page_link('pages/23_App_Requests.py', label='App Request', icon = '❓')
-    st.sidebar.page_link('pages/24_Update_Analytics.py', label='Update Analytics', icon = '📏')
+    st.sidebar.page_link('pages/24_System_Update.py', label='Update Analytics', icon = '📏')
 
 
 # --------------------------------Links Function -----------------------------------------------

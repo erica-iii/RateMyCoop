@@ -44,6 +44,6 @@ with st.form("add_system_update_form"):
             except requests.exceptions.RequestException as e:
                 st.error(f"Error connecting to server: {str(e)}")
 
-        requests = requests.get('http://api:4000/sa/systemUpdates')
+        requests = requests.get('http://api:4000/sa/allUpdates')
         requests = requests.json()
         st.table(requests)

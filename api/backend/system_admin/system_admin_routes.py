@@ -108,10 +108,10 @@ def update_requests(request_id):
         current_app.logger.error(f"Error updating request: {e}")
         return make_response("Internal Server Error", 500)
 
-@systemadmin.route('/admins', methods=["GET"])
-def get_admins():
+@systemadmin.route('/allUpdates', methods=["GET"])
+def get_updates():
     query = '''
-        SELECT * FROM system_admins 
+        SELECT * FROM system_updates
     '''
 
     cursor = db.get_db().cursor()
