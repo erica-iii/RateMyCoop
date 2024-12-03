@@ -294,6 +294,48 @@ def get_comments_for_review(review_id):
     else:
         return jsonify({'message': 'No comments found for this review'}), 404
 
+@students.route('/students/delete_comment/<int:comment_id>', methods=['DELETE'])
+# deletes a comment from the database
+def delete_comment(comment_id):
+    cursor = db.get_db().cursor()
+    
+    cursor.execute("DELETE FROM comments WHERE commentID = %s", (comment_id,))
+    
+    if cursor.rowcount == 0:
+        return jsonify({'error': 'Comment not found'}), 404
+    
+    db.get_db().commit()
+    
+    return jsonify({'message': 'Comment deleted successfully'}), 200
+
+@students.route('/students/edit_comment/<int:comment_id>', methods=['PUT'])
+# edits comment in database
+def edit_comment(comment_id):
+    # collect the data from the request
+    comment_data = request.json
+    content = comment_data.get('content')
+    
+    if not content:
+        return jsonify({'error': 'Content is required'}), 400
+
+    cursor = db.get_db().cursor()
+    
+    # update the comment in the database
+    query = """
+        UPDATE comments
+        SET content = %s
+        WHERE commentID = %s
+    """
+    cursor.execute(query, (content, comment_id))
+    
+    if cursor.rowcount == 0:
+        return jsonify({'error': 'Comment not found'}), 404
+    
+    db.get_db().commit()
+    
+    return jsonify({'message': 'Comment updated successfully'}), 200
+
+
 
 
 
