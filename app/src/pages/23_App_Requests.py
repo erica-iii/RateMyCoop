@@ -20,29 +20,26 @@ ids = [int(request['requestId']) for request in options]
 request_id = st.selectbox('Select Request to Update', ids, label_visibility='visible')
 
 selected_request = None
-
 for request in options:
-  if request['requestId'] == request_id:
-    selected_request = request
-    break
+    if request['requestId'] == request_id:
+        selected_request = request
+        break
 
 if selected_request:
-  #st.markdown(f'### Current Request Details (Request ID: {selected_request['requestId']})')
+    approved = st.checkbox('Approved', value=selected_request.get('resolveStatus', False))
 
-  approved = st.checkbox('Approved', value=selected_request.get('requestStatus', False))
+    if st.button('Update Request'):
+        updated_data = {
+        'resolveStatus': approved
+        }
 
-  if st.button('Update Request'):
-    updated_data = {
-    'requestStatus': approved
-    }
+        response = requests.put(f'http://api:4000/sa/updateRequests/{request_id}', json=updated_data)
 
-    response = requests.put(f'http://api:4000/sa/updateRequests/{request_id}', json=updated_data)
+        if response.status_code == 200:
+            st.write('Request updated successfully')
+        else:
+            st.write(f'Failed to update the request. Status code: {response.status_code}')
 
-    if response.status_code == 200:
-      st.write('Request updated successfully')
-    else:
-      st.write(f'Failed to update the request. Status code: {response.status_code}')
-
-requests = requests.get(f'http://api:4000/sa/requests')
+requests = requests.get('http://api:4000/sa/requests')
 requests = requests.json()
 st.table(requests)

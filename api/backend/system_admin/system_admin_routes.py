@@ -86,14 +86,14 @@ def get_requests():
 
 # Update the analytics
 @systemadmin.route('/updateRequests/<int:request_id>', methods = ['PUT'])
-def update_requests(approved, request_id):
+def update_requests(request_id):
     data = request.json
     current_app.logger.info(data)
 
-    approved = data.get('requestStatus')
+    approved = data.get('resolveStatus')
 
     query = """
-        UPDATE requests SET requestStatus = %s WHERE requestId = %s'
+        UPDATE requests SET resolveStatus = %s WHERE requestId = %s'
     """
     cursor = db.get_db().cursor()
     cursor.exdcute(query, (approved, request_id))
