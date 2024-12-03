@@ -95,7 +95,7 @@ def update_requests(approved, request_id):
     
     return make_response("Request Updated", 200)
 
-
+'''
 @systemadmin.route('/updateAnalytics', methods=['POST'])
 def update_analytics():
 
@@ -147,3 +147,4 @@ def update_analytics():
     
     response = make_response("Successfully posted review!")
     response.status
+'''
