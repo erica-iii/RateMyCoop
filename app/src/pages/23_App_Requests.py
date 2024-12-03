@@ -32,7 +32,7 @@ for request in options:
     break
 
 if selected_request:
-  st.markdown(f'### Current Request Details (Request ID: {selected_request['requestId']})')
+  #st.markdown(f'### Current Request Details (Request ID: {selected_request['requestId']})')
 
   approved = st.checkbox('Approved', value=selected_request.get('requestStatus', False))
 
@@ -47,4 +47,3 @@ if selected_request:
       st.write('Request updated successfully')
     else:
       st.write(f'Failed to update the request. Status code: {response.status_code}')
-      
