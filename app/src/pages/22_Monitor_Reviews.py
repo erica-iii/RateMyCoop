@@ -13,14 +13,11 @@ st.write('\n\n')
 
 
 # set up the page
-st.markdown("# Manage My Reviews and Comments")   
+st.markdown("## Monitor to see if there are any inappropriate reviews")   
 
-options = requests.get(f'http://api:4000/sa/reviews/{1}').json()
+options = requests.get(f'http://api:4000/sa/reviews').json()
 
-ids = []
-
-for i in options:
-    ids.append(int(i['reviewId'])) 
+ids = [int(review['reviewId']) for review in options]
 
 
 review_id = st.selectbox('Review To Delete', 
@@ -37,6 +34,6 @@ if st.button("Delete",
     else:
         st.write(f'Delete failed :( {response.status_code}')
 
-ellies_reviews = requests.get(f'http://api:4000/sa/reviews/{1}')
-reviews = ellies_reviews.json()
+reviews = requests.get(f'http://api:4000/sa/reviews')
+reviews = reviews.json()
 st.table(reviews)
