@@ -85,11 +85,8 @@ def get_reviews():
 
 # Update the analytics
 @systemadmin.route('/updateRequests/<int:request_id>', methods = ['PUT'])
-def update_requests(request_id):
+def update_requests(approved, request_id):
     cursor = db.get_db().cursor()
-
-    updated_data = request.json()
-    approved = updated_data.get('requestStatus')
 
     cursor.execute('UPDATE requests SET requestStatus = %s WHERE requestId = %s', (approved, request_id))
     db.get_db().commit()

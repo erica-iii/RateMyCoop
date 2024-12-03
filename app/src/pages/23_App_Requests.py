@@ -12,11 +12,6 @@ st.title('Update Requests Page')
 
 st.write('\n\n')
 
-if st.button('Requests', 
-             type = 'primary',
-             use_container_width=True):
-  results = requests.get('http://api:4000/sa/monitorreviews').json()
-  st.dataframe(results)
 
 options = requests.get('http://api:4000/sa/requests').json()
 
@@ -41,9 +36,13 @@ if selected_request:
     'resolveStatus': approved
     }
 
-    response = requests.put(f'http://api:4000/sa/updateRequests/{request_id}', json=updated_data)
+    response = requests.put(f'http://api:4000/sa/updateRequests/{approved, request_id}', json=updated_data)
 
     if response.status_code == 200:
       st.write('Request updated successfully')
     else:
       st.write(f'Failed to update the request. Status code: {response.status_code}')
+
+requests = requests.get(f'http://api:4000/sa/requests')
+requests = requests.json()
+st.table(requests)
