@@ -58,6 +58,35 @@ if reviews:
                 st.success("You liked this review!")
             else:
                 st.error("Failed to like the review.")
+
+         # fetch comments for the review
+        comments_response = requests.get(f'http://api:4000/s/students/comments/{review["reviewId"]}')
+        if comments_response.status_code == 200:
+            comments = comments_response.json()
+            st.write("### Comments:")
+            for comment in comments:
+                st.write(f"**{comment['commenterName']}**: {comment['content']}")
+                st.write("---")
+        else:
+            st.write("No comments yet.")
+
+        # add Comment Section
+        with st.expander("Add a Comment"):
+            comment_text = st.text_area(f"Write your comment for review {review['reviewId']}")
+            if st.button(f"Submit Comment for Review {review['reviewId']}", key=f"submit-{review['reviewId']}"):
+                comment_payload = {
+                    "reviewId": review["reviewId"],
+                    "poster": 1, 
+                    "content": comment_text
+                }
+                st.write("Payload:", comment_payload)
+                
+                comment_response = requests.post('http://api:4000/s/students/add_comment', json=comment_payload)
+                if comment_response.status_code == 200:
+                    st.success("Comment added successfully!")
+                else:
+                    st.error(f"Failed to add comment: {comment_response.json().get('error', 'Unknown error')}")
+
         st.write("---")  
 else:
     st.write("No reviews available for this company.")

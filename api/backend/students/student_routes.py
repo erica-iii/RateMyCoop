@@ -236,6 +236,105 @@ def edit_review(review_id):
     
     return jsonify({'message': 'Review updated successfully'}), 200
 
+@students.route('/students/add_comment', methods=['POST'])
+# adds review to database
+def add_comment():
+    # get the comment data from the request
+    comment_data = request.json
+    review_id = comment_data.get('reviewId')
+    user_id = comment_data.get('poster')
+    comment_text = comment_data.get('content')
+
+    if not review_id or not user_id or not comment_text:
+        return jsonify({'error': 'Review ID, poster, and content are required'}), 400
+
+    cursor = db.get_db().cursor()
+
+    # insert comment into the comments table
+    query = """
+        INSERT INTO comments (reviewId, poster, content)
+        VALUES (%s, %s, %s)
+    """
+    try:
+        cursor.execute(query, (review_id, user_id, comment_text))
+        db.get_db().commit()
+        return jsonify({'message': 'Comment added successfully'}), 200
+    
+    except Exception as e:
+        current_app.logger.error(f"Error adding comment: {e}")
+        return jsonify({'error': 'Failed to add comment'}), 500
+
+@students.route('/students/comments/<int:review_id>', methods=['GET'])
+# gets all comments assosiated with a review
+def get_comments_for_review(review_id):
+    cursor = db.get_db().cursor()
+
+    # SQL query to fetch all comments for the given reviewId
+    query = """
+        SELECT 
+            c.commentID,
+            c.content,
+            c.poster,
+            CONCAT(s.firstName, ' ', s.lastName) AS commenterName
+        FROM 
+            comments c
+        LEFT JOIN 
+            students s ON c.poster = s.studentId
+        WHERE 
+            c.reviewId = %s
+        ORDER BY 
+            c.commentID ASC
+    """
+
+    cursor.execute(query, (review_id,))
+    comments = cursor.fetchall()
+
+    if comments:
+        return jsonify(comments), 200
+    else:
+        return jsonify({'message': 'No comments found for this review'}), 404
+
+@students.route('/students/delete_comment/<int:comment_id>', methods=['DELETE'])
+# deletes a comment from the database
+def delete_comment(comment_id):
+    cursor = db.get_db().cursor()
+    
+    cursor.execute("DELETE FROM comments WHERE commentID = %s", (comment_id,))
+    
+    if cursor.rowcount == 0:
+        return jsonify({'error': 'Comment not found'}), 404
+    
+    db.get_db().commit()
+    
+    return jsonify({'message': 'Comment deleted successfully'}), 200
+
+@students.route('/students/edit_comment/<int:comment_id>', methods=['PUT'])
+# edits comment in database
+def edit_comment(comment_id):
+    # collect the data from the request
+    comment_data = request.json
+    content = comment_data.get('content')
+    
+    if not content:
+        return jsonify({'error': 'Content is required'}), 400
+
+    cursor = db.get_db().cursor()
+    
+    # update the comment in the database
+    query = """
+        UPDATE comments
+        SET content = %s
+        WHERE commentID = %s
+    """
+    cursor.execute(query, (content, comment_id))
+    
+    if cursor.rowcount == 0:
+        return jsonify({'error': 'Comment not found'}), 404
+    
+    db.get_db().commit()
+    
+    return jsonify({'message': 'Comment updated successfully'}), 200
+
 
 
 

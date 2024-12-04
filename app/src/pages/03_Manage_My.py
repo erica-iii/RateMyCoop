@@ -69,7 +69,7 @@ if response.status_code == 200:
             selected_review_data = next((r for r in reviews if r['reviewId'] == review_id), None)
             
             # show current review details
-            st.write("### Current Review")
+            st.write("##### Current Review")
             st.write(f"**Content:** {selected_review_data['content']}")
             st.write(f"**Stars:** {selected_review_data['stars']}")
 
@@ -95,6 +95,80 @@ if response.status_code == 200:
         st.write("No reviews found.")
 else:
     st.error("Failed to fetch reviews.")
+
+st.divider()
+
+# delete comment functionality
+response = requests.get(f'http://api:4000/s/students/comments/{user_id}')
+
+if response.status_code == 200:
+    comments = response.json()
+    if comments:
+        # select a comment to delete
+        comment_options = {f"Comment ID {comment['commentID']} - {comment['content']}": comment['commentID'] for comment in comments}
+        selected_comment = st.selectbox("Select a Comment to Delete", list(comment_options.keys()))
+
+        if selected_comment:
+            comment_id = comment_options[selected_comment]
+            selected_comment_data = next((c for c in comments if c['commentID'] == comment_id), None)
+            
+            # show current comment details
+            st.write("### Comment to Delete")
+            st.write(f"**Content:** {selected_comment_data['content']}")
+
+            # confirmation Button
+            if st.button("Delete Comment", type='primary', use_container_width=True):
+                delete_response = requests.delete(f'http://api:4000/s/students/delete_comment/{comment_id}')
+                
+                if delete_response.status_code == 200 or delete_response.status_code == 204:
+                    st.success("Comment deleted successfully!")
+                else:
+                    st.error(f"Failed to delete comment: {delete_response.status_code}")
+    else:
+        st.write("No comments found.")
+else:
+    st.error("Failed to fetch comments.")
+
+st.divider()
+
+# edit comment functionality
+response = requests.get(f'http://api:4000/s/students/comments/{user_id}')
+
+if response.status_code == 200:
+    comments = response.json()
+    if comments:
+        # select a comment to edit
+        comment_options = {f"Comment ID {comment['commentID']} - {comment['content']}": comment['commentID'] for comment in comments}
+        selected_comment = st.selectbox("Select a Comment to Edit", list(comment_options.keys()))
+
+        if selected_comment:
+            comment_id = comment_options[selected_comment]
+            selected_comment_data = next((c for c in comments if c['commentID'] == comment_id), None)
+            
+            # show current comment details
+            st.write("##### Current Comment")
+            st.write(f"**Content:** {selected_comment_data['content']}")
+
+            # edit form
+            st.write("### Edit Comment")
+            with st.form("edit_comment_form"):
+                new_content = st.text_area("Edit Content", value=selected_comment_data['content'])
+
+                submitted = st.form_submit_button("Update Comment")
+                if submitted:
+                    update_response = requests.put(
+                        f'http://api:4000/s/students/edit_comment/{comment_id}',
+                        json={"content": new_content}
+                    )
+                    
+                    if update_response.status_code == 200:
+                        st.success("Comment updated successfully!")
+                    else:
+                        st.error(f"Failed to update comment: {update_response.json().get('error', 'Unknown error')}")
+    else:
+        st.write("No comments found.")
+else:
+    st.error("Failed to fetch comments.")
 
 st.divider()
 
