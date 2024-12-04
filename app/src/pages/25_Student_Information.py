@@ -10,6 +10,8 @@ SideBarLinks()
 
 st.title('Student Information Page')
 
+st.write('### This is the student data that is relevant to the system admin')
+
 st.write('\n\n')
 
 

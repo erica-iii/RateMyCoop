@@ -32,7 +32,7 @@ def get_student_information():
     return response
 
 # get all the reviews
-@systemadmin.route('/studentReviews', methods=['GET'])
+@systemadmin.route('/reviews', methods=['GET'])
 def get_reviews():
     query = '''
         SELECT 
@@ -57,7 +57,7 @@ def get_reviews():
     return the_response
 
 # Delete any innapropriate reviews
-@systemadmin.route('/delete_review/<int:review_id>', methods=['DELETE'])
+@systemadmin.route('/deleteReview/<int:review_id>', methods=['DELETE'])
 def delete_reviews(review_id):
     cursor = db.get_db().cursor()
     
@@ -97,16 +97,12 @@ def update_requests(request_id):
     approved = data.get('resolveStatus')
 
     query = """
-        UPDATE requests SET resolveStatus = %s WHERE requestId = %s'
+        UPDATE requests SET resolveStatus = %s WHERE requestId = %s
     """
-    try:
-        cursor = db.get_db().cursor()
-        cursor.execute(query, (approved, request_id))
-        db.get_db().commit()
-        return make_response("Request Updated", 200)
-    except Exception as e:
-        current_app.logger.error(f"Error updating request: {e}")
-        return make_response("Internal Server Error", 500)
+    cursor = db.get_db().cursor()
+    cursor.execute(query, (approved, request_id))
+    db.get_db().commit()
+    return make_response("Request Updated", 200)
 
 @systemadmin.route('/allUpdates', methods=["GET"])
 def get_updates():

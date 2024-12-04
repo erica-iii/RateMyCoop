@@ -9,7 +9,9 @@ st.set_page_config(layout = 'wide')
 
 SideBarLinks()
 
-st.title('System Admin Home Page')
+st.title('Welcome System Admin, Clark.')
+
+st.write('### What would you like to do today?')
 
 
 if st.button('Monitor Reviews', 
@@ -27,7 +29,7 @@ if st.button('App Requests',
              use_container_width=True):
   st.switch_page('pages/23_App_Requests.py')
 
-if st.button('Update Analytics', 
+if st.button('System Updates', 
              type='primary',
              use_container_width=True):
   st.switch_page('pages/24_System_Update.py')
