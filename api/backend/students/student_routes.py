@@ -9,6 +9,19 @@ from backend.db_connection import db
 
 students = Blueprint('students', __name__)
 
+@students.route('/students', methods=['GET'])
+def get_students():
+
+    cursor = db.get_db().cursor()
+    cursor.execute('''SELECT * FROM students;''')
+    
+    theData = cursor.fetchall()
+    
+    the_response = make_response(jsonify(theData))
+    the_response.status_code = 200
+    return the_response
+
+
 @students.route('/students/companies', methods=['GET'])
 # gets all company names
 def get_companies():
