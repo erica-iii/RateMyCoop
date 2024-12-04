@@ -17,22 +17,47 @@ SideBarLinks()
 st.header('Reviews')
 
 # You can access the session state to make a more customized/personalized app experience
-st.write(f"### Hi, {st.session_state['first_name']}. View Reviews.")
+st.write(f"### Hi, {st.session_state['first_name']}. View Reviews and Analytics.")
 
 response = requests.get('http://api:4000/s/students/companies')
 companies = response.json()  
 company_names = [company['companyName'] for company in companies] 
 
 company = st.selectbox(
-    "Please choose a company to view reviews for",
+    "Please choose a company to view reviews and analytics for",
     company_names
 )
-st.write("Reviews for:", company)
+st.write("Results for:", company)
+# analytics section
 
+st.write("### Company Analytics")
+st.write("(Statistics of previous hires in our database)")
+
+response_a = requests.get(f'http://api:4000/s/students/company_analytics/{company}') 
+
+if response_a.status_code == 200:
+    analytics = response_a.json()  
+    #st.json(analytics)  
+    
+    averages = analytics.get('averages', {})
+    top_majors = analytics.get('topMajors', [])
+
+    st.write("##### Averages")
+    averages_df = pd.DataFrame([averages])
+    st.table(averages_df)
+
+    st.write("##### Top Majors")
+    majors_df = pd.DataFrame(top_majors)
+    st.table(majors_df)
+
+else:
+    st.error(f"Failed to fetch analytics: {response_a.status_code}")
+
+st.write("### Company Reviews")
+
+# reviews section
 response = requests.get(f'http://api:4000/s/students/comp_reviews/{company}')
 reviews = response.json()
-
-#st.write('Want to leave a comment?')
 
 if reviews:
     for review in reviews:
@@ -46,7 +71,7 @@ if reviews:
             name = 'Unknown'
 
         # display review details
-        st.subheader(f"Review by: {name}")
+        st.write(f"##### Review by: {name}")
         st.write(f"Stars: {review['stars']}")
         st.write(f"Content: {review['content']}")
         st.write(f"Likes: {review['likes']}")
@@ -63,7 +88,7 @@ if reviews:
         comments_response = requests.get(f'http://api:4000/s/students/comments/{review["reviewId"]}')
         if comments_response.status_code == 200:
             comments = comments_response.json()
-            st.write("### Comments:")
+            st.write("##### Comments:")
             for comment in comments:
                 st.write(f"**{comment['commenterName']}**: {comment['content']}")
                 st.write("---")
@@ -79,7 +104,7 @@ if reviews:
                     "poster": 1, 
                     "content": comment_text
                 }
-                st.write("Payload:", comment_payload)
+                #st.write("Payload:", comment_payload)
                 
                 comment_response = requests.post('http://api:4000/s/students/add_comment', json=comment_payload)
                 if comment_response.status_code == 200:

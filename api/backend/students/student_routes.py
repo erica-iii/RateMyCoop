@@ -237,7 +237,7 @@ def edit_review(review_id):
     return jsonify({'message': 'Review updated successfully'}), 200
 
 @students.route('/students/add_comment', methods=['POST'])
-# adds review to database
+# adds comment to database
 def add_comment():
     # get the comment data from the request
     comment_data = request.json
@@ -293,6 +293,46 @@ def get_comments_for_review(review_id):
         return jsonify(comments), 200
     else:
         return jsonify({'message': 'No comments found for this review'}), 404
+    
+@students.route('/students/comments_by_poster/<int:student_id>', methods=['GET'])
+# Gets all comments made by a specific student (poster)
+def get_comments_by_poster(student_id):
+    cursor = db.get_db().cursor()
+
+    # SQL query to fetch all comments made by the given studentId (poster)
+    query = """
+        SELECT 
+            c.commentID,
+            c.content,
+            c.reviewId,
+            CONCAT(s.firstName, ' ', s.lastName) AS commenterName
+        FROM 
+            comments c
+        LEFT JOIN 
+            students s ON c.poster = s.studentId
+        WHERE 
+            c.poster = %s
+        ORDER BY 
+            c.commentID ASC
+    """
+
+    cursor.execute(query, (student_id,))
+    comments = cursor.fetchall()
+
+    if comments:
+        # Convert comments to JSON-friendly format
+        comment_list = [
+            {
+                'commentID': row['commentID'],
+                'content': row['content'],
+                'reviewId': row['reviewId'],
+                'commenterName': row['commenterName']
+            } for row in comments
+        ]
+        return jsonify(comment_list), 200
+    else:
+        return jsonify({'message': 'No comments found for this student'}), 404
+
 
 @students.route('/students/delete_comment/<int:comment_id>', methods=['DELETE'])
 # deletes a comment from the database
@@ -334,6 +374,74 @@ def edit_comment(comment_id):
     db.get_db().commit()
     
     return jsonify({'message': 'Comment updated successfully'}), 200
+
+@students.route('/students/company_analytics/<company_name>', methods=['GET'])
+# gets analytics for a company
+def get_company_analytics(company_name):
+    cursor = db.get_db().cursor()
+
+    # query to calculate averages for student stats
+    stats_query = """
+        SELECT 
+            ROUND(AVG(ss.gpa), 2) AS avgGPA,
+            ROUND(AVG(ss.numCoop), 0) AS avgNumCoop,
+            ROUND(AVG(ss.numLeadership), 0) AS avgNumLeadership,
+            ROUND(AVG(ss.numClubs), 0) AS avgNumClubs
+        FROM 
+            student_stats ss
+        JOIN 
+            worked_at wa ON ss.studentId = wa.studentId
+        JOIN 
+            companies c ON wa.companyId = c.companyId
+        WHERE 
+            c.companyName = %s
+    """
+
+    # query to get the top 3 most common majors
+    majors_query = """
+        SELECT 
+            ss.major, COUNT(*) AS count
+        FROM 
+            student_stats ss
+        JOIN 
+            worked_at wa ON ss.studentId = wa.studentId
+        JOIN 
+            companies c ON wa.companyId = c.companyId
+        WHERE 
+            c.companyName = %s
+        GROUP BY 
+            ss.major
+        ORDER BY 
+            count DESC
+        LIMIT 3
+    """
+
+    # execute the queries
+    cursor.execute(stats_query, (company_name,))
+    stats_result = cursor.fetchone()
+
+    cursor.execute(majors_query, (company_name,))
+    majors_result = cursor.fetchall()
+
+    if not stats_result or all(value is None for value in stats_result.values()):
+        return jsonify({'error': 'No data found for the specified company'}), 404
+
+    # construct the response
+    response_data = {
+        'averages': {
+            'average GPA': stats_result['avgGPA'],
+            'average number of co-ops done': stats_result['avgNumCoop'],
+            'average number of leadership roles': stats_result['avgNumLeadership'],
+            'average number of clubs': stats_result['avgNumClubs']
+        },
+        'topMajors': [
+            {'major': major['major'], 'count': major['count']} for major in majors_result
+        ]
+    }
+
+    return jsonify(response_data), 200
+
+
 
 
 
