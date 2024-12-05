@@ -21,7 +21,7 @@ options = requests.get('http://api:4000/sa/requests').json()
 
 ids = [int(request['requestId']) for request in options]
 
-request_id = st.selectbox('Select Request to Update', ids, label_visibility='visible')
+request_id = st.selectbox('Select Request Id to Update', ids, label_visibility='visible')
 
 selected_request = None
 for request in options:
