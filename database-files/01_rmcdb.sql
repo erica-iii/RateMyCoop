@@ -368,40 +368,123 @@ insert into coops (jobTitle, hourlyRate, location, industry, summary, company) v
 
 
 -- Inserting sample data for reviews
-INSERT INTO reviews (poster, reviewOf,anonymous, content, stars, coopId, likes)
-VALUES
-(1, 1, 0, 'Great work environment and team', 5, 1, 10),
-(2, 2, 0, 'Good experience but could improve communication', 3, 2, 5),
-(3, 3, 0, 'Excellent mentoring and project opportunities', 5, 3, 12);
+
+
+insert into reviews (poster, reviewOf, anonymous, stars, coopId, likes, content) values ('11', '17', false, 1, '1', 116174576, 'turpis integer aliquet massa id lobortis convallis tortor risus dapibus augue vel accumsan');
+insert into reviews (poster, reviewOf, anonymous, stars, coopId, likes, content) values ('18', '15', true, 1, '7', 994177391, 'volutpat quam pede lobortis ligula sit amet eleifend pede libero quis orci');
+insert into reviews (poster, reviewOf, anonymous, stars, coopId, likes, content) values ('10', '2', false, 4, '19', 972077829, 'ultrices posuere cubilia curae mauris viverra diam vitae quam suspendisse potenti nullam porttitor lacus at turpis donec');
+insert into reviews (poster, reviewOf, anonymous, stars, coopId, likes, content) values ('3', '11', false, 4, '13', 166760523, 'luctus et ultrices posuere cubilia curae duis faucibus accumsan odio curabitur convallis duis consequat dui nec nisi volutpat eleifend donec');
+insert into reviews (poster, reviewOf, anonymous, stars, coopId, likes, content) values ('1', '12', false, 3, '17', 961010876, 'erat quisque erat eros viverra eget congue eget semper rutrum nulla nunc purus phasellus in felis');
+insert into reviews (poster, reviewOf, anonymous, stars, coopId, likes, content) values ('4', '4', true, 5, '15', 235546674, 'in consequat ut nulla sed accumsan felis ut at dolor quis odio consequat varius integer');
+insert into reviews (poster, reviewOf, anonymous, stars, coopId, likes, content) values ('6', '1', false, 1, '2', 472054643, 'vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae nulla dapibus dolor');
+insert into reviews (poster, reviewOf, anonymous, stars, coopId, likes, content) values ('7', '16', true, 3, '4', 852890909, 'sed justo pellentesque viverra pede ac diam cras pellentesque volutpat dui maecenas tristique est et tempus semper');
+insert into reviews (poster, reviewOf, anonymous, stars, coopId, likes, content) values ('15', '18', true, 4, '3', 331930693, 'nam congue risus semper porta volutpat quam pede lobortis ligula sit amet eleifend');
+insert into reviews (poster, reviewOf, anonymous, stars, coopId, likes, content) values ('5', '14', false, 4, '20', 93863672, 'erat tortor sollicitudin mi sit amet lobortis sapien sapien non mi integer ac neque duis bibendum morbi non');
+insert into reviews (poster, reviewOf, anonymous, stars, coopId, likes, content) values ('12', '13', false, 1, '8', 458292794, 'sit amet cursus id turpis integer aliquet massa id lobortis');
+insert into reviews (poster, reviewOf, anonymous, stars, coopId, likes, content) values ('19', '5', true, 2, '14', 795527964, 'nisl nunc nisl duis bibendum felis sed interdum venenatis turpis enim');
+insert into reviews (poster, reviewOf, anonymous, stars, coopId, likes, content) values ('20', '6', false, 5, '11', 248047106, 'morbi ut odio cras mi pede malesuada in imperdiet et commodo vulputate justo in blandit ultrices enim lorem ipsum dolor');
+insert into reviews (poster, reviewOf, anonymous, stars, coopId, likes, content) values ('17', '10', true, 2, '5', 154088372, 'nec sem duis aliquam convallis nunc proin at turpis a pede posuere');
+insert into reviews (poster, reviewOf, anonymous, stars, coopId, likes, content) values ('13', '9', false, 1, '16', 747208719, 'odio justo sollicitudin ut suscipit a feugiat et eros vestibulum ac');
+insert into reviews (poster, reviewOf, anonymous, stars, coopId, likes, content) values ('2', '19', true, 2, '9', 417713889, 'nec dui luctus rutrum nulla tellus in sagittis dui vel nisl duis ac nibh fusce lacus purus aliquet at feugiat');
+insert into reviews (poster, reviewOf, anonymous, stars, coopId, likes, content) values ('14', '7', true, 1, '18', 715881474, 'a suscipit nulla elit ac nulla sed vel enim sit amet nunc viverra dapibus');
+insert into reviews (poster, reviewOf, anonymous, stars, coopId, likes, content) values ('16', '3', false, 2, '12', 634336756, 'non quam nec dui luctus rutrum nulla tellus in sagittis dui vel nisl duis ac');
+insert into reviews (poster, reviewOf, anonymous, stars, coopId, likes, content) values ('8', '20', true, 2, '10', 363655836, 'felis ut at dolor quis odio consequat varius integer ac leo pellentesque ultrices mattis odio donec vitae');
+insert into reviews (poster, reviewOf, anonymous, stars, coopId, likes, content) values ('9', '8', false, 2, '6', 407832226, 'eget rutrum at lorem integer tincidunt ante vel ipsum praesent blandit lacinia erat vestibulum');
+
+
+
 
 -- Inserting sample data for comments
-INSERT INTO comments (reviewId, content, poster)
-VALUES
-(1, 'I agree, the team was fantastic!', 2),
-(2, 'Communication was a bit slow, but still learned a lot', 1),
-(3, 'The mentorship was amazing, learned so much', 2);
+
+insert into comments (reviewId, content, poster) values ('12', 'aliquam augue quam sollicitudin vitae consectetuer eget rutrum at lorem integer tincidunt ante vel ipsum praesent', '2');
+insert into comments (reviewId, content, poster) values ('8', 'elementum ligula vehicula consequat morbi a ipsum integer a nibh in quis justo maecenas rhoncus aliquam lacus morbi', '7');
+insert into comments (reviewId, content, poster) values ('16', 'sapien non mi integer ac neque duis bibendum morbi non quam nec dui luctus rutrum', '18');
+insert into comments (reviewId, content, poster) values ('17', 'et ultrices posuere cubilia curae nulla dapibus dolor vel est donec odio justo', '13');
+insert into comments (reviewId, content, poster) values ('13', 'non velit donec diam neque vestibulum eget vulputate ut ultrices vel augue vestibulum ante ipsum primis in faucibus', '15');
+insert into comments (reviewId, content, poster) values ('14', 'ut ultrices vel augue vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae donec', '10');
+insert into comments (reviewId, content, poster) values ('4', 'vestibulum eget vulputate ut ultrices vel augue vestibulum ante ipsum primis in faucibus orci luctus et', '20');
+insert into comments (reviewId, content, poster) values ('15', 'dolor sit amet consectetuer adipiscing elit proin interdum mauris non ligula pellentesque ultrices phasellus id sapien', '6');
+insert into comments (reviewId, content, poster) values ('20', 'feugiat et eros vestibulum ac est lacinia nisi venenatis tristique fusce congue diam id ornare imperdiet sapien urna pretium nisl', '3');
+insert into comments (reviewId, content, poster) values ('18', 'ultrices aliquet maecenas leo odio condimentum id luctus nec molestie sed justo pellentesque viverra pede ac diam cras', '16');
+insert into comments (reviewId, content, poster) values ('9', 'faucibus accumsan odio curabitur convallis duis consequat dui nec nisi volutpat eleifend donec ut dolor morbi vel lectus in', '8');
+insert into comments (reviewId, content, poster) values ('10', 'donec posuere metus vitae ipsum aliquam non mauris morbi non lectus aliquam sit amet diam in', '19');
+insert into comments (reviewId, content, poster) values ('5', 'risus praesent lectus vestibulum quam sapien varius ut blandit non interdum in ante vestibulum ante ipsum primis', '1');
+insert into comments (reviewId, content, poster) values ('2', 'nulla suscipit ligula in lacus curabitur at ipsum ac tellus semper interdum', '11');
+insert into comments (reviewId, content, poster) values ('3', 'auctor sed tristique in tempus sit amet sem fusce consequat nulla nisl nunc nisl duis bibendum felis sed interdum venenatis', '4');
+insert into comments (reviewId, content, poster) values ('11', 'ut massa quis augue luctus tincidunt nulla mollis molestie lorem quisque ut erat curabitur gravida nisi at', '9');
+insert into comments (reviewId, content, poster) values ('6', 'massa volutpat convallis morbi odio odio elementum eu interdum eu tincidunt in leo maecenas pulvinar', '12');
+insert into comments (reviewId, content, poster) values ('1', 'nisi vulputate nonummy maecenas tincidunt lacus at velit vivamus vel nulla eget eros elementum pellentesque quisque', '17');
+insert into comments (reviewId, content, poster) values ('7', 'amet cursus id turpis integer aliquet massa id lobortis convallis tortor risus dapibus augue vel accumsan', '5');
+insert into comments (reviewId, content, poster) values ('19', 'ligula in lacus curabitur at ipsum ac tellus semper interdum mauris ullamcorper purus sit', '14');
 
 -- Inserting sample data for system_admins
-INSERT INTO system_admins (firstName, lastName, email, phone, passwordHash, username)
-VALUES
-('Admin', 'User', 'admin@company.com', '555-0401', 'hashed_admin_password', 'adminuser');
+
+insert into system_admins (firstName, lastName, email, phone, passwordHash, username) values ('Evita', 'Gulliman', 'egulliman0@harvard.edu', '528-978-9827', '$2a$04$U51Vx5xl7kzn2V52D.Mzg.JUfk3PbkIM3gyiJBdYlTHarp/4dR1na', 'egulliman0');
+insert into system_admins (firstName, lastName, email, phone, passwordHash, username) values ('Leanna', 'Poppleston', 'lpoppleston1@altervista.org', '768-507-8326', '$2a$04$Q93oBhGm41Ksz1l63it8pue/rPpcpyVUJwRN5L/xZYVOOQk/VjbzG', 'lpoppleston1');
+insert into system_admins (firstName, lastName, email, phone, passwordHash, username) values ('Cassius', 'Skim', 'cskim2@cnbc.com', '138-467-7824', '$2a$04$hbt6YhcAmgmXEjUV2PChTeHqYYTKJHYf.X7h7McFjjHkfZ9X7jf76', 'cskim2');
+insert into system_admins (firstName, lastName, email, phone, passwordHash, username) values ('Georgeta', 'Gerardet', 'ggerardet3@earthlink.net', '791-361-9470', '$2a$04$f.Pj86qREkNIitm5VgKdWe2cF6cRXb4LEB8GKIOJntAOBSW.4tK/y', 'ggerardet3');
+insert into system_admins (firstName, lastName, email, phone, passwordHash, username) values ('Billie', 'Copland', 'bcopland4@jugem.jp', '414-143-7490', '$2a$04$eitMQfHRazl4cqPWFQHbpuw5I95ph7KKnpwJdFb2TeHZCO9q1oL5.', 'bcopland4');
+insert into system_admins (firstName, lastName, email, phone, passwordHash, username) values ('Marje', 'Sherry', 'msherry5@imgur.com', '314-390-0679', '$2a$04$nGraFRH1apCnPdlMy1hg2uxlOdrtwIgLZpQ5C6wxjMm61MmTq3Zmy', 'msherry5');
+insert into system_admins (firstName, lastName, email, phone, passwordHash, username) values ('Herminia', 'Deakan', 'hdeakan6@mit.edu', '185-541-5723', '$2a$04$RiXmRGph19MmZ4AHeAsM6OWGN8hVFnHHhWiYowb4DzxCScMIPbj4W', 'hdeakan6');
+insert into system_admins (firstName, lastName, email, phone, passwordHash, username) values ('Pamela', 'Klainman', 'pklainman7@miitbeian.gov.cn', '848-141-0850', '$2a$04$ijqr66nLcUGZGYM488oauOCuI/wnCT0GEkLwKPVXvDnyCw0W8Xg9W', 'pklainman7');
+insert into system_admins (firstName, lastName, email, phone, passwordHash, username) values ('Shawn', 'Tewes', 'stewes8@linkedin.com', '818-871-0781', '$2a$04$MxRaGhT1hoRUoAg9ac6mG.LYIWnWINM6UbmKleImPfa7rmGPJY8nm', 'stewes8');
+insert into system_admins (firstName, lastName, email, phone, passwordHash, username) values ('Ashley', 'Torbett', 'atorbett9@prnewswire.com', '736-533-3209', '$2a$04$nsdQGjh2IyB06O3t5XIou.7Ytg1UwaGQ.pHfgZtg3nBZWfHh4iNT2', 'atorbett9');
+insert into system_admins (firstName, lastName, email, phone, passwordHash, username) values ('Martita', 'Bier', 'mbiera@google.it', '737-598-5805', '$2a$04$6F0rKBIoOBRLeUzpdx627.spRkBx2LblJvFG3/ROzMEBhj1txGBTC', 'mbiera');
+insert into system_admins (firstName, lastName, email, phone, passwordHash, username) values ('Pen', 'Darville', 'pdarvilleb@usda.gov', '187-753-7138', '$2a$04$af8HCwwM9zMchc3PGidOiOdBAEEkJWLC77BJZaPi3O3aYhPN5GUYW', 'pdarvilleb');
+insert into system_admins (firstName, lastName, email, phone, passwordHash, username) values ('Bessie', 'Andersson', 'banderssonc@cpanel.net', '960-194-1637', '$2a$04$NMAZetiWsNW.4YK4lCKA0uIKelqwlzq6D2DVLrAiwFBPNxvd2Z/cq', 'banderssonc');
+insert into system_admins (firstName, lastName, email, phone, passwordHash, username) values ('Cori', 'Hedon', 'chedond@about.com', '144-330-2323', '$2a$04$YgKK4sq9EZz9fGVHvRJX8uTCAa.kQJ5sm9buoEThWXZPvxqX3BK.O', 'chedond');
+insert into system_admins (firstName, lastName, email, phone, passwordHash, username) values ('Marchelle', 'Whiteson', 'mwhitesone@house.gov', '456-229-0996', '$2a$04$jvu6bWD.iLg0VbgE2xc6y.c/94z/oeOQVlGvVD3vE17cYJNHFUnM2', 'mwhitesone');
+insert into system_admins (firstName, lastName, email, phone, passwordHash, username) values ('Alvie', 'Tritton', 'atrittonf@apache.org', '523-898-4651', '$2a$04$jn4bEk5VtU1yqIwy8SfmKe.AaeP/sJCvKjBgjIvnEjNIU.2ftSvs2', 'atrittonf');
+insert into system_admins (firstName, lastName, email, phone, passwordHash, username) values ('Elonore', 'West', 'ewestg@squarespace.com', '440-857-1075', '$2a$04$ZjZqBzEbyrwGxfVICnv0teDf4AFojWpjRCCfjunENmrM9Xbbhmmg.', 'ewestg');
+insert into system_admins (firstName, lastName, email, phone, passwordHash, username) values ('Burk', 'Waiton', 'bwaitonh@printfriendly.com', '240-414-9378', '$2a$04$S0kV.CNIWY9lC05IJCNB8O3BVDSVRUm.0m96uv.iBnQolrCRCozWu', 'bwaitonh');
+insert into system_admins (firstName, lastName, email, phone, passwordHash, username) values ('Corissa', 'Bernette', 'cbernettei@de.vu', '209-404-2428', '$2a$04$APgwLsO8xXRLqQl3ZgZpy.kcSllJXALT5/nMvGx1eHyIwHH7bnkOC', 'cbernettei');
+insert into system_admins (firstName, lastName, email, phone, passwordHash, username) values ('Bertine', 'Enderlein', 'benderleinj@ucsd.edu', '816-571-6798', '$2a$04$VFaxoEktuNVQE1dAJjBlju63GVxcQv.FJmhJheLlQjO4xxsQo7jfO', 'benderleinj');
 
 -- Inserting sample data for requests
-INSERT INTO requests (details, resolveStatus)
-VALUES
-('Request to update student GPA system', 0),
-('Issue with company login process', 1),
-('Request for new coop job posting template', 0);
+
+insert into requests (details, resolveStatus, companyId, studentId) values ('tristique in tempus sit amet sem fusce consequat nulla nisl nunc nisl duis', false, '1', '9');
+insert into requests (details, resolveStatus, companyId, studentId) values ('mi nulla ac enim in tempor turpis nec euismod scelerisque quam turpis adipiscing lorem', false, '14', '13');
+insert into requests (details, resolveStatus, companyId, studentId) values ('posuere cubilia curae mauris viverra diam vitae quam suspendisse potenti nullam porttitor lacus at turpis donec posuere metus', false, '12', '8');
+insert into requests (details, resolveStatus, companyId, studentId) values ('ultrices phasellus id sapien in sapien iaculis congue vivamus metus', false, '7', '11');
+insert into requests (details, resolveStatus, companyId, studentId) values ('ante vivamus tortor duis mattis egestas metus aenean fermentum donec ut mauris eget massa tempor convallis nulla neque libero', true, '19', '12');
+insert into requests (details, resolveStatus, companyId, studentId) values ('id massa id nisl venenatis lacinia aenean sit amet justo morbi ut', true, '4', '1');
+insert into requests (details, resolveStatus, companyId, studentId) values ('nulla tempus vivamus in felis eu sapien cursus vestibulum proin eu mi nulla', false, '3', '14');
+insert into requests (details, resolveStatus, companyId, studentId) values ('sed magna at nunc commodo placerat praesent blandit nam nulla integer pede justo lacinia', true, '9', '20');
+insert into requests (details, resolveStatus, companyId, studentId) values ('aenean auctor gravida sem praesent id massa id nisl venenatis lacinia', false, '8', '17');
+insert into requests (details, resolveStatus, companyId, studentId) values ('augue aliquam erat volutpat in congue etiam justo etiam pretium iaculis justo in hac habitasse platea', true, '20', '15');
+insert into requests (details, resolveStatus, companyId, studentId) values ('et tempus semper est quam pharetra magna ac consequat metus sapien ut nunc vestibulum ante', false, '18', '7');
+insert into requests (details, resolveStatus, companyId, studentId) values ('cursus vestibulum proin eu mi nulla ac enim in tempor turpis nec euismod scelerisque', true, '15', '2');
+insert into requests (details, resolveStatus, companyId, studentId) values ('elementum eu interdum eu tincidunt in leo maecenas pulvinar lobortis est phasellus sit amet', true, '11', '10');
+insert into requests (details, resolveStatus, companyId, studentId) values ('ac tellus semper interdum mauris ullamcorper purus sit amet nulla quisque arcu libero rutrum ac lobortis vel dapibus at diam', true, '5', '19');
+insert into requests (details, resolveStatus, companyId, studentId) values ('nulla neque libero convallis eget eleifend luctus ultricies eu nibh quisque id justo sit amet sapien dignissim vestibulum', true, '13', '6');
+insert into requests (details, resolveStatus, companyId, studentId) values ('elit ac nulla sed vel enim sit amet nunc viverra dapibus nulla suscipit ligula in lacus curabitur at', true, '16', '18');
+insert into requests (details, resolveStatus, companyId, studentId) values ('ultrices vel augue vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae donec pharetra', true, '10', '16');
+insert into requests (details, resolveStatus, companyId, studentId) values ('donec quis orci eget orci vehicula condimentum curabitur in libero ut massa volutpat convallis', true, '2', '4');
+insert into requests (details, resolveStatus, companyId, studentId) values ('ac nulla sed vel enim sit amet nunc viverra dapibus nulla suscipit ligula in lacus curabitur at', false, '6', '5');
+insert into requests (details, resolveStatus, companyId, studentId) values ('aenean auctor gravida sem praesent id massa id nisl venenatis lacinia aenean sit amet', false, '17', '3');
+
 
 -- Inserting sample data for system_updates
-INSERT INTO system_updates (details, updatedBy)
-VALUES
-('System update to improve performance', 1),
-('Security patch applied to fix vulnerabilities', 2),
-('New feature added to the user interface', 1),
-('Database migration to support new version', 2),
-('Bug fix in payment gateway integration', 1);
-
+insert into system_updates (details, updatedBy) values ('vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae duis faucibus accumsan odio curabitur', '8');
+insert into system_updates (details, updatedBy) values ('tempus vivamus in felis eu sapien cursus vestibulum proin eu mi nulla ac', '14');
+insert into system_updates (details, updatedBy) values ('adipiscing elit proin interdum mauris non ligula pellentesque ultrices phasellus', '5');
+insert into system_updates (details, updatedBy) values ('mauris enim leo rhoncus sed vestibulum sit amet cursus id turpis', '13');
+insert into system_updates (details, updatedBy) values ('vitae nisi nam ultrices libero non mattis pulvinar nulla pede ullamcorper augue a suscipit nulla elit ac', '17');
+insert into system_updates (details, updatedBy) values ('orci nullam molestie nibh in lectus pellentesque at nulla suspendisse potenti cras in purus eu magna vulputate luctus cum sociis', '9');
+insert into system_updates (details, updatedBy) values ('suspendisse potenti cras in purus eu magna vulputate luctus cum sociis natoque penatibus et magnis dis parturient montes nascetur', '19');
+insert into system_updates (details, updatedBy) values ('nibh ligula nec sem duis aliquam convallis nunc proin at turpis a pede posuere nonummy integer non velit donec diam', '1');
+insert into system_updates (details, updatedBy) values ('ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae donec', '4');
+insert into system_updates (details, updatedBy) values ('a libero nam dui proin leo odio porttitor id consequat in consequat ut nulla sed accumsan felis', '16');
+insert into system_updates (details, updatedBy) values ('et ultrices posuere cubilia curae mauris viverra diam vitae quam suspendisse potenti nullam porttitor lacus at turpis donec posuere', '6');
+insert into system_updates (details, updatedBy) values ('justo pellentesque viverra pede ac diam cras pellentesque volutpat dui maecenas tristique', '7');
+insert into system_updates (details, updatedBy) values ('enim leo rhoncus sed vestibulum sit amet cursus id turpis integer aliquet massa', '15');
+insert into system_updates (details, updatedBy) values ('eu tincidunt in leo maecenas pulvinar lobortis est phasellus sit amet erat nulla tempus vivamus', '10');
+insert into system_updates (details, updatedBy) values ('ipsum integer a nibh in quis justo maecenas rhoncus aliquam lacus morbi quis', '3');
+insert into system_updates (details, updatedBy) values ('dolor morbi vel lectus in quam fringilla rhoncus mauris enim leo rhoncus sed vestibulum sit', '2');
+insert into system_updates (details, updatedBy) values ('nascetur ridiculus mus vivamus vestibulum sagittis sapien cum sociis natoque penatibus et magnis dis parturient montes nascetur', '20');
+insert into system_updates (details, updatedBy) values ('sit amet sem fusce consequat nulla nisl nunc nisl duis bibendum felis sed interdum venenatis turpis enim', '18');
+insert into system_updates (details, updatedBy) values ('metus aenean fermentum donec ut mauris eget massa tempor convallis nulla neque', '12');
+insert into system_updates (details, updatedBy) values ('dolor vel est donec odio justo sollicitudin ut suscipit a feugiat et eros', '11');
 
 
 # CRUD Statements for Persona 1
