@@ -53,8 +53,7 @@ else:
 
 st.divider()
 
-# edit review functionality
-user_id = 1  
+# edit review functionality 
 response = requests.get(f'http://api:4000/s/students/student_reviews/{user_id}')
 
 if response.status_code == 200:
@@ -99,7 +98,7 @@ else:
 st.divider()
 
 # delete comment functionality
-response = requests.get(f'http://api:4000/s/students/comments/{user_id}')
+response = requests.get(f'http://api:4000/s/students/comments_by_poster/{user_id}')
 
 if response.status_code == 200:
     comments = response.json()
@@ -132,7 +131,7 @@ else:
 st.divider()
 
 # edit comment functionality
-response = requests.get(f'http://api:4000/s/students/comments/{user_id}')
+response = requests.get(f'http://api:4000/s/students/comments_by_poster/{user_id}')
 
 if response.status_code == 200:
     comments = response.json()
