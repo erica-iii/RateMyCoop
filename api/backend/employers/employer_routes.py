@@ -12,7 +12,7 @@ from backend.db_connection import db
 
 employers = Blueprint('employers', __name__)
 
-@employers.route('/employers/job_listings', methods=['GET'])
+@employers.route('/e/job_listings', methods=['GET'])
 def get_job_listings():
     cursor = db.get_db().cursor()
     cursor.execute("SELECT * FROM job_listings")
@@ -23,7 +23,7 @@ def get_job_listings():
     response.status_code = 200
     return response
 
-@employers.route('/employers/update_job/<int:job_id>', methods=['PUT'])
+@employers.route('/e/update_job/<int:job_id>', methods=['PUT'])
 def update_job(job_id):
     job_data = request.json
     current_app.logger.info(job_data)
@@ -43,7 +43,7 @@ def update_job(job_id):
     
     return make_response("Job listing updated!", 200)
 
-@employers.route('/employers/demographics/<int:company_id>', methods=['GET'])
+@employers.route('/e/demographics/<int:company_id>', methods=['GET'])
 def get_demographics(company_id):
     query = """
         SELECT 
@@ -64,7 +64,7 @@ def get_demographics(company_id):
     response.status_code = 200
     return response
 
-@employers.route('/employers/post_job', methods=['POST'])
+@employers.route('/e/post_job', methods=['POST'])
 def post_job():
     job_data = request.json
     current_app.logger.info(job_data)
@@ -84,7 +84,7 @@ def post_job():
     
     return make_response("Job listing created!", 201)
 
-@employers.route('/employers/delete_job/<int:job_id>', methods=['DELETE'])
+@employers.route('/e/delete_job/<int:job_id>', methods=['DELETE'])
 def delete_job(job_id):
     cursor = db.get_db().cursor()
     
@@ -93,7 +93,7 @@ def delete_job(job_id):
     
     return make_response("Job listing deleted!", 200)
 
-@employers.route('/employers/company_reviews/<int:company_id>', methods=['GET'])
+@employers.route('/e/company_reviews/<int:company_id>', methods=['GET'])
 def get_reviews(company_id):
     query = """
         SELECT reviewerName, rating, content, createdAt
