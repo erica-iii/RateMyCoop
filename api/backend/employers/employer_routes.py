@@ -92,3 +92,23 @@ def delete_job(job_id):
     db.get_db().commit()
     
     return make_response("Job listing deleted!", 200)
+
+@employers.route('/employers/company_reviews/<int:company_id>', methods=['GET'])
+def get_reviews(company_id):
+    query = """
+        SELECT reviewerName, rating, content, createdAt
+        FROM reviews
+        WHERE companyId = %s
+    """
+    cursor = db.get_db().cursor()
+    cursor.execute(query, (company_id,))
+    reviews = cursor.fetchall()
+    
+    # If no reviews are found, return a message
+    if not reviews:
+        return make_response(jsonify({"message": "No reviews found for this company."}), 404)
+    
+    # If reviews are found, return them in the response
+    response = make_response(jsonify(reviews))
+    response.status_code = 200
+    return response
