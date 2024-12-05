@@ -264,26 +264,26 @@ insert into students (firstName, lastName, email, phone, passwordHash, intro, pr
 
 -- Inserting sample data for student_stats
 
-insert into student_stats (studentId, gpa, gender, ethnicity, major, numCoop, numClubs, numLeadership, resume) values (1, 3.89, 'Female', 'Argentinian', 'DC Circuits', 62, 60, 30, 'AmetLobortis.ppt');
-insert into student_stats (studentId, gpa, gender, ethnicity, major, numCoop, numClubs, numLeadership, resume) values (2, 1.74, 'Bigender', 'Kiowa', 'DV Camera Operator', 21, 61, 40, 'Risus.mov');
-insert into student_stats (studentId, gpa, gender, ethnicity, major, numCoop, numClubs, numLeadership, resume) values (3, 0.16, 'Female', 'Pakistani', 'Jet Ski', 94, 41, 76, 'VivamusMetusArcu.avi');
-insert into student_stats (studentId, gpa, gender, ethnicity, major, numCoop, numClubs, numLeadership, resume) values (4, 0.35, 'Female', 'Asian', 'Military Training', 42, 83, 53, 'DiamNequeVestibulum.pdf');
-insert into student_stats (studentId, gpa, gender, ethnicity, major, numCoop, numClubs, numLeadership, resume) values (5, 2.23, 'Agender', 'Paiute', 'ICH-GCP', 20, 21, 78, 'NecNisiVolutpat.xls');
-insert into student_stats (studentId, gpa, gender, ethnicity, major, numCoop, numClubs, numLeadership, resume) values (6, 2.93, 'Male', 'Navajo', 'Commercial Kitchen Design', 15, 56, 21, 'VitaeConsectetuer.txt');
-insert into student_stats (studentId, gpa, gender, ethnicity, major, numCoop, numClubs, numLeadership, resume) values (7, 0.48, 'Female', 'Alaskan Athabascan', 'Non-Conforming', 63, 94, 32, 'Nisl.avi');
-insert into student_stats (studentId, gpa, gender, ethnicity, major, numCoop, numClubs, numLeadership, resume) values (8, 1.05, 'Male', 'Venezuelan', 'Xcart', 96, 13, 41, 'Ipsum.tiff');
-insert into student_stats (studentId, gpa, gender, ethnicity, major, numCoop, numClubs, numLeadership, resume) values (9, 0.51, 'Female', 'Indonesian', 'Kaspersky Antivirus', 60, 55, 64, 'CommodoPlaceratPraesent.ppt');
-insert into student_stats (studentId, gpa, gender, ethnicity, major, numCoop, numClubs, numLeadership, resume) values (10, 3.15, 'Male', 'Taiwanese', 'HCM Processes &amp; Forms', 46, 75, 71, 'Euismod.pdf');
-insert into student_stats (studentId, gpa, gender, ethnicity, major, numCoop, numClubs, numLeadership, resume) values (11, 0.51, 'Male', 'Ecuadorian', 'Feature Films', 74, 35, 26, 'MiInPorttitor.pdf');
-insert into student_stats (studentId, gpa, gender, ethnicity, major, numCoop, numClubs, numLeadership, resume) values (12, 0.79, 'Agender', 'Chinese', 'SMT Kingdom', 13, 86, 6, 'EuOrciMauris.mp3');
-insert into student_stats (studentId, gpa, gender, ethnicity, major, numCoop, numClubs, numLeadership, resume) values (13, 0.78, 'Female', 'Apache', 'Omniture', 32, 82, 24, 'IpsumPrimisIn.ppt');
-insert into student_stats (studentId, gpa, gender, ethnicity, major, numCoop, numClubs, numLeadership, resume) values (14, 3.81, 'Female', 'Tongan', 'Access', 33, 44, 63, 'Luctus.mp3');
-insert into student_stats (studentId, gpa, gender, ethnicity, major, numCoop, numClubs, numLeadership, resume) values (15, 2.89, 'Male', 'Micronesian', 'CQS', 93, 100, 80, 'Pulvinar.xls');
-insert into student_stats (studentId, gpa, gender, ethnicity, major, numCoop, numClubs, numLeadership, resume) values (16, 3.96, 'Female', 'Yaqui', 'NCover', 84, 86, 18, 'Convallis.avi');
-insert into student_stats (studentId, gpa, gender, ethnicity, major, numCoop, numClubs, numLeadership, resume) values (17, 3.34, 'Female', 'Apache', 'QAD', 6, 96, 24, 'Eu.ppt');
-insert into student_stats (studentId, gpa, gender, ethnicity, major, numCoop, numClubs, numLeadership, resume) values (18, 0.57, 'Female', 'Ottawa', 'Corporate Identity', 75, 66, 99, 'TortorSollicitudin.tiff');
-insert into student_stats (studentId, gpa, gender, ethnicity, major, numCoop, numClubs, numLeadership, resume) values (19, 2.42, 'Female', 'Yakama', 'XML Schema', 100, 64, 25, 'Duis.ppt');
-insert into student_stats (studentId, gpa, gender, ethnicity, major, numCoop, numClubs, numLeadership, resume) values (20, 0.52, 'Female', 'Cambodian', 'Piping', 40, 2, 82, 'EleifendQuamA.tiff');
+insert into student_stats (studentId, gpa, gender, ethnicity, major, numCoop, numClubs, numLeadership, resume) values (1, 2.46, 'Female', 'Navajo', 'NMON', 3, 2, 3, 'In.tiff');
+insert into student_stats (studentId, gpa, gender, ethnicity, major, numCoop, numClubs, numLeadership, resume) values (2, 2.84, 'Male', 'Uruguayan', 'SSOP', 1, 5, 0, 'AliquetPulvinarSed.png');
+insert into student_stats (studentId, gpa, gender, ethnicity, major, numCoop, numClubs, numLeadership, resume) values (3, 3.22, 'Male', 'Guamanian', 'SDH', 2, 1, 4, 'SapienALibero.ppt');
+insert into student_stats (studentId, gpa, gender, ethnicity, major, numCoop, numClubs, numLeadership, resume) values (4, 3.54, 'Genderqueer', 'Osage', 'iReport', 1, 5, 2, 'Nulla.avi');
+insert into student_stats (studentId, gpa, gender, ethnicity, major, numCoop, numClubs, numLeadership, resume) values (5, 2.74, 'Male', 'Native Hawaiian', 'Invoicing', 0, 0, 4, 'Fermentum.pdf');
+insert into student_stats (studentId, gpa, gender, ethnicity, major, numCoop, numClubs, numLeadership, resume) values (6, 2.73, 'Female', 'Mexican', 'PQQ', 0, 1, 4, 'MaurisViverra.mpeg');
+insert into student_stats (studentId, gpa, gender, ethnicity, major, numCoop, numClubs, numLeadership, resume) values (7, 2.49, 'Female', 'Spaniard', 'Statistical Data Analysis', 0, 4, 1, 'DiamVitaeQuam.ppt');
+insert into student_stats (studentId, gpa, gender, ethnicity, major, numCoop, numClubs, numLeadership, resume) values (8, 3.09, 'Female', 'Filipino', 'Youth Development', 2, 2, 4, 'OdioOdio.jpeg');
+insert into student_stats (studentId, gpa, gender, ethnicity, major, numCoop, numClubs, numLeadership, resume) values (9, 2.37, 'Male', 'Yuman', 'White Box Testing', 1, 4, 2, 'Non.tiff');
+insert into student_stats (studentId, gpa, gender, ethnicity, major, numCoop, numClubs, numLeadership, resume) values (10, 3.51, 'Male', 'Korean', 'US Tax', 1, 4, 1, 'UtErat.tiff');
+insert into student_stats (studentId, gpa, gender, ethnicity, major, numCoop, numClubs, numLeadership, resume) values (11, 2.07, 'Female', 'Uruguayan', 'Aquariums', 1, 2, 5, 'JustoIn.ppt');
+insert into student_stats (studentId, gpa, gender, ethnicity, major, numCoop, numClubs, numLeadership, resume) values (12, 3.72, 'Male', 'Cambodian', 'BMI', 2, 4, 4, 'PrimisInFaucibus.avi');
+insert into student_stats (studentId, gpa, gender, ethnicity, major, numCoop, numClubs, numLeadership, resume) values (13, 3.42, 'Male', 'Central American', 'Ice Cream', 3, 1, 5, 'Sit.pdf');
+insert into student_stats (studentId, gpa, gender, ethnicity, major, numCoop, numClubs, numLeadership, resume) values (14, 2.78, 'Female', 'Hmong', 'Youth Leadership', 2, 1, 1, 'TinciduntLacusAt.avi');
+insert into student_stats (studentId, gpa, gender, ethnicity, major, numCoop, numClubs, numLeadership, resume) values (15, 3.42, 'Male', 'Hmong', 'McKesson PACS', 1, 5, 1, 'UltricesEnimLorem.xls');
+insert into student_stats (studentId, gpa, gender, ethnicity, major, numCoop, numClubs, numLeadership, resume) values (16, 2.35, 'Male', 'Colombian', 'FDMA', 2, 5, 3, 'CongueVivamus.tiff');
+insert into student_stats (studentId, gpa, gender, ethnicity, major, numCoop, numClubs, numLeadership, resume) values (17, 3.18, 'Female', 'Navajo', 'ePub', 2, 4, 1, 'BlanditNam.mpeg');
+insert into student_stats (studentId, gpa, gender, ethnicity, major, numCoop, numClubs, numLeadership, resume) values (18, 2.94, 'Polygender', 'Spaniard', 'DOT Regulations', 0, 0, 2, 'SuspendissePotentiCras.jpeg');
+insert into student_stats (studentId, gpa, gender, ethnicity, major, numCoop, numClubs, numLeadership, resume) values (19, 3.23, 'Male', 'Filipino', 'Embedded SQL', 1, 0, 1, 'DuiVel.avi');
+insert into student_stats (studentId, gpa, gender, ethnicity, major, numCoop, numClubs, numLeadership, resume) values (20, 2.14, 'Male', 'Mexican', 'CP', 3, 2, 2, 'IntegerPede.avi');
 
 -- Inserting sample data for companies
 INSERT INTO companies (companyName, repEmail, repPhone, website, passwordHash, activityStatus)
