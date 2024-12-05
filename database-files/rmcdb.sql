@@ -531,7 +531,7 @@ ORDER BY
         JOIN companies co ON r.reviewOf = co.companyId
         JOIN students s ON r.poster = s.studentId
         JOIN student_stats ss ON s.studentId = ss.studentId
-    WHERE statSharing != 0 AND jobTitle = 'Software Developer'
+    WHERE statSharing != 0 AND jobTitle = 'Intern'
     GROUP BY jobTitle, companyName;
     # user story 4.4
     SELECT * FROM (SELECT ROUND(AVG(gpa), 2) AS avgGpa, ROUND(AVG(numCoop), 2) AS avgNumCoop,
