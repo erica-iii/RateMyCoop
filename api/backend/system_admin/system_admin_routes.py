@@ -16,15 +16,29 @@ systemadmin = Blueprint('systemadmin', __name__)
 
 # ------------------------------------------------------------
 # Get the student information that is relevant to the admin
-@systemadmin.route('/studentInformation')
+@systemadmin.route('/allStudentInformation')
 def get_student_information():
 
     query = '''
-        SELECT studentId, activityStatus, statSharing
-        FROM students
+        SELECT * FROM students
     '''
     cursor = db.get_db().cursor()
     cursor.execute(query)
+    theData = cursor.fetchall()
+ 
+    response = make_response(jsonify(theData))
+    response.status_code = 200
+    return response
+
+@systemadmin.route('/studentInformation/<int:student_id>')
+def get_one_student_information(student_id):
+
+    query = '''
+        SELECT * FROM students
+        WHERE studentId = %s
+    '''
+    cursor = db.get_db().cursor()
+    cursor.execute(query, (student_id))
     theData = cursor.fetchall()
  
     response = make_response(jsonify(theData))
@@ -90,9 +104,6 @@ def get_requests():
 def update_requests(request_id):
     data = request.json
     current_app.logger.info(data)
-
-    if 'resolveStatus' not in data:
-        return make_response("Missing 'resolveStatus' field", 400)
 
     approved = data.get('resolveStatus')
 
