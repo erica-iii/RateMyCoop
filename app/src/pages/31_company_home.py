@@ -17,14 +17,14 @@ st.write('### What would you like to do today?')
 if st.button('View My Reviews', 
              type='primary',
              use_container_width=True):
-  st.switch_page('pages/31_Company_Review_Feed.py')
+  st.switch_page('pages/32_Company_Review_Feed.py')
 
 if st.button('Post Internship Opportunities', 
              type='primary',
              use_container_width=True):
-  st.switch_page('pages/32_Post_Opportunities.py')
+  st.switch_page('pages/33_Post_Opportunities.py')
 
 if st.button('View All Internship Listings', 
              type='primary',
              use_container_width=True):
-  st.switch_page('pages/33_View_Internships.py')
+  st.switch_page('pages/34_View_Internships.py')
