@@ -58,6 +58,13 @@ def AdminPageNav():
     st.sidebar.page_link('pages/23_App_Requests.py', label='App Request', icon = '❓')
     st.sidebar.page_link('pages/24_System_Update.py', label='System Updates', icon = '⚙️')
 
+#### --------------------------- Co-op Advisor Role -----------------------------------------
+def AdvisorPageNav():
+    st.sidebar.page_link("pages/11_Search_Coops.py", label="Co-op Search", icon='🔎')
+    st.sidebar.page_link("pages/12_Search_Demographics.py", label="Demographic Search", icon='📈')
+    st.sidebar.page_link("pages/13_Search_Companies.py", label='Company Search', icon='🏢')
+    
+
 
 # --------------------------------Links Function -----------------------------------------------
 def SideBarLinks(show_home=False):
@@ -92,6 +99,9 @@ def SideBarLinks(show_home=False):
             PredictionNav()
             ApiTestNav()
             ClassificationNav()
+
+        if st.session_state['role'] == 'coop_advisor':
+            AdvisorPageNav()
 
         # If the user is an administrator, give them access to the administrator pages
         if st.session_state["role"] == "administrator":

@@ -78,5 +78,13 @@ if st.button('ex', type = 'primary', use_container_width=True):
     st.session_state['role'] = 'prof'
     st.switch_page('pages/20_Admin_Home.py')
 
+if st.button('Act as Hayden Richards, Co-op Advisor',
+             type = 'primary',
+             use_container_width=True):
+    st.session_state['authenticated'] = True
+    st.session_state['role'] = 'coop_advisor'
+    st.session_state['first_name'] = 'Hayden'
+    st.switch_page('pages/10_Coop_Advisor_Home.py')
+
 
 
