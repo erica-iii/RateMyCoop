@@ -72,6 +72,3 @@ if st.button('Act as Hayden Richards, Co-op Advisor',
     st.session_state['role'] = 'coop_advisor'
     st.session_state['first_name'] = 'Hayden'
     st.switch_page('pages/10_Coop_Advisor_Home.py')
-
-
-
