@@ -10,6 +10,7 @@ from backend.db_connection import db
 students = Blueprint('students', __name__)
 
 @students.route('/students', methods=['GET'])
+# returns list of all students
 def get_students():
 
     cursor = db.get_db().cursor()
@@ -308,7 +309,7 @@ def get_comments_for_review(review_id):
         return jsonify({'message': 'No comments found for this review'}), 404
     
 @students.route('/students/comments_by_poster/<int:student_id>', methods=['GET'])
-# Gets all comments made by a specific student (poster)
+# gets all comments made by a specific student (poster)
 def get_comments_by_poster(student_id):
     cursor = db.get_db().cursor()
 
@@ -333,7 +334,7 @@ def get_comments_by_poster(student_id):
     comments = cursor.fetchall()
 
     if comments:
-        # Convert comments to JSON-friendly format
+        # convert comments to JSON-friendly format
         comment_list = [
             {
                 'commentID': row['commentID'],
