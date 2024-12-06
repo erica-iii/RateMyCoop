@@ -113,6 +113,7 @@ if reviews:
 else:
     st.write("No reviews available for this company.")
 
+
 # Button to return to the company home page
 if st.button('Return home'):
     st.switch_page('pages/31_Company_Home.py')

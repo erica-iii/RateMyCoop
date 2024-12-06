@@ -27,7 +27,7 @@ job_title = st.text_input("Job Title")
 job_description = st.text_area("Job Description")
 job_salary = st.number_input("Salary (per year)", min_value=0)
 job_location = st.text_input("Location")
-job_requirements = st.text_area("Job Requirements (optional)")
+job_industry = st.text_area("Industry")
 
 # submit button -- as long as all fields are filled out
 if st.button("Post Job"):
@@ -40,7 +40,7 @@ if st.button("Post Job"):
             "salary": job_salary,
             "location": job_location,
             "companyId": st.session_state["company_id"],
-            "requirements": job_requirements if job_requirements else "N/A"
+            "industry": job_industry
         }
 
         # posting job listing
