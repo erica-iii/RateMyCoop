@@ -14,7 +14,7 @@ SideBarLinks()
 # Header for the page
 st.header('Manage Job Listings')
 
-st.write(f"### Welcome, {st.session_state['first_name']}!")
+st.write(f"### Welcome, {st.session_state['company_name']}!")
 
 # Fetch the list of job listings for the employer
 response = requests.get(f'http://api:4000/e/companies/{st.session_state["company_id"]}/job_listings')
