@@ -199,7 +199,7 @@ def recommend_coops():
         current_app.logger.error(f"Error adding comment: {e}")
         return jsonify({'error': 'Failed to add comment'}), 500
     
-@advisors.route('/advisors/<advisor_id>/recommendations', methods=['GET'])
+@advisors.route('/advisors/<int:advisor_id>/recommendations', methods=['GET'])
 def see_recommendations(advisor_id):
     # See previous recommendations from Co-op Advisors
     cursor = db.get_db().cursor()
@@ -220,7 +220,5 @@ def see_recommendations(advisor_id):
     theResponse = make_response(jsonify(theData))
     theResponse.status_code = 200
     return theResponse
-
-
     
-    
+
