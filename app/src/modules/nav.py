@@ -47,7 +47,11 @@ def AdvisorPageNav():
     st.sidebar.page_link("pages/12_Search_Demographics.py", label="Demographic Search", icon='📈')
     st.sidebar.page_link("pages/13_Search_Companies.py", label='Company Search', icon='🏢')
     
-
+#### --------------------------- Employer Role -----------------------------------------
+def EmployerPageNav():
+    st.sidebar.page_link("pages/32_Current_Position_Listings.py", label="Current Positions", icon='📋')
+    st.sidebar.page_link("pages/33_Post_Opportunities.py", label="Add a Position", icon='💼')
+    st.sidebar.page_link("pages/34_Student_Reviews.py", label='Position Reviews', icon='📩')
 
 # --------------------------------Links Function -----------------------------------------------
 def SideBarLinks(show_home=False):
@@ -83,6 +87,9 @@ def SideBarLinks(show_home=False):
         # If the user is an administrator, give them access to the administrator pages
         if st.session_state["role"] == "administrator":
             AdminPageNav()
+
+        if st.session_state['role'] == "employer":
+            EmployerPageNav()
 
     # Always show the About page at the bottom of the list of links
     AboutPageNav()
