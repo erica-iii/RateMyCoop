@@ -3,10 +3,8 @@ logger = logging.getLogger(__name__)
 import pandas as pd
 import streamlit as st
 from streamlit_extras.app_logo import add_logo
-#import world_bank_data as wb
 import matplotlib.pyplot as plt
 import numpy as np
-#import plotly.express as px
 from modules.nav import SideBarLinks
 import requests
 
@@ -38,9 +36,6 @@ if view_option == "Another Company":
         company_names = [company['companyName'] for company in companies]
         selected_company_name = st.selectbox("Select a company to view reviews", company_names)
         
-        # Find the selected company's ID
-        #selected_company = next(company for company in companies if company['companyName'] == selected_company_name)
-        #selected_company_name = selected_company['companyName']
     else:
         st.error(f"Failed to fetch company list: {companies_response.status_code}")
         st.stop()
@@ -53,7 +48,6 @@ response_a = requests.get(f'http://api:4000/e/company_analytics/{selected_compan
 
 if response_a.status_code == 200:
     analytics = response_a.json()  
-    #st.json(analytics)  
     
     averages = analytics.get('averages', {})
     top_majors = analytics.get('topMajors', [])
@@ -117,5 +111,3 @@ else:
 # Button to return to the company home page
 if st.button('Return home'):
     st.switch_page('pages/31_Company_Home.py')
-
-
