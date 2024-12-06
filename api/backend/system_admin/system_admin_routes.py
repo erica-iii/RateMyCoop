@@ -99,7 +99,7 @@ def get_requests():
     return the_response
 
 
-# Update the analytics
+# Update the requests
 @systemadmin.route('/updateRequests/<int:request_id>', methods = ['PUT'])
 def update_requests(request_id):
     data = request.json
