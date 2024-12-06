@@ -221,4 +221,25 @@ def see_recommendations(advisor_id):
     theResponse.status_code = 200
     return theResponse
     
+@advisors.route('/advisors/edit_recommendations/<int:recommendation_id>', methods=['PUT'])
+def edit_recommendations(recommendation_id):
+    recommendation_data = request.json
+    feedback = recommendation_data.get('feedback')
+    if not feedback:
+        return jsonify({'error':'Feedback is required'}), 400
+    
+    cursor = db.get_db().cursor()
+    # Update the recommendation content
+    query = """
+        UPDATE recommendations
+        SET feedback = %s
+        WHERE recommendationId = %s
+    """
+    cursor.execute(query, (feedback, recommendation_id))
 
+    if cursor.rowcount == 0:
+        return jsonify({'error': 'Recommendation not found'}), 404
+
+    db.get_db().commit()
+    
+    return jsonify({'message': 'Recommendation updated successfully'}), 200
