@@ -72,3 +72,11 @@ if st.button('Act as Hayden Richards, Co-op Advisor',
     st.session_state['role'] = 'coop_advisor'
     st.session_state['first_name'] = 'Hayden'
     st.switch_page('pages/10_Coop_Advisor_Home.py')
+
+if st.button('Act as Dina Moore, Employer',
+             type = 'primary',
+             use_container_width=True):
+    st.session_state['authenticated'] = True
+    st.session_state['role'] = 'employer'
+    st.session_state['first_name'] = 'Dina'
+    st.switch_page('pages/31_Company_Home.py')
