@@ -12,16 +12,26 @@ from backend.db_connection import db
 
 employers = Blueprint('employers', __name__)
 
-@employers.route('/e/job_listings', methods=['GET'])
+# get co-ops for the users company
+@employers.route('/coops', methods=['GET'])
 def get_job_listings():
     cursor = db.get_db().cursor()
-    cursor.execute("SELECT * FROM job_listings")
+    cursor.execute("SELECT * FROM coops WHERE company = 1")
     
     theData = cursor.fetchall()
     
     response = make_response(jsonify(theData))
     response.status_code = 200
     return response
+
+@employers.route('/deleteCoop/<int:coop_d>', methods=['DELETE'])
+def delete_reviews(coop_d):
+    cursor = db.get_db().cursor()
+    
+    cursor.execute("DELETE FROM coops WHERE coopId = %s", (coop_d,)) 
+    db.get_db().commit()
+    
+    return make_response("Co-op deleted", 200)
 
 @employers.route('/e/update_job/<int:job_id>', methods=['PUT'])
 def update_job(job_id):
@@ -65,26 +75,58 @@ def get_demographics(company_id):
     return response
 
 @employers.route('/e/post_job', methods=['POST'])
+# posts a review to database
 def post_job():
-    job_data = request.json
-    current_app.logger.info(job_data)
 
-    title = job_data.get('title')
-    salary = job_data.get('salary')
-    location = job_data.get('location')
-    industry = job_data.get('industry')
-    description = job_data.get('description')
-    company_id = job_data.get('company_id')
+    # collecting the data
+    the_data = request.json
+    current_app.logger.info(the_data)
 
+    company = the_data['company']
+    job_title = the_data['job_title']
+    content = the_data['content']
+    location = the_data['location']
+    industry = the_data['industry']
+    salary = the_data['salary']
+    
+    # inserting data
+    cursor = db.get_db().cursor()
+
+    cursor.execute("SELECT companyId FROM companies WHERE companyName = %s", (company,))
+    company = cursor.fetchone()
+
+    if not company:
+        cursor.execute("INSERT INTO companies (companyName, activityStatus) VALUES (%s, %s)", (company, 1))
+        db.get_db().commit()
+        cursor.execute("SELECT companyId FROM companies WHERE companyName = %s", (company,))
+        company = cursor.fetchone()
+
+    company_id = company['companyId']
+
+    cursor.execute("SELECT coopId FROM coops WHERE jobTitle = %s AND company = %s", (job_title, company_id))
+    coop = cursor.fetchone()
+
+    if not coop:
+        cursor.execute("INSERT INTO coops (jobTitle, company) VALUES (%s, %s)", (job_title, company_id))
+        db.get_db().commit()
+        cursor.execute("SELECT coopId FROM coops WHERE jobTitle = %s AND company = %s", (job_title, company_id))
+        coop = cursor.fetchone()
+
+    coop_id = coop['coopId']
+
+    # running query to insert review 
     query = """
-        INSERT INTO coops (jobTitle, hourlyRate, location, industry, summary, company)
+        INSERT INTO reviews (poster, reviewOf, anonymous, content, stars, coopId)
         VALUES (%s, %s, %s, %s, %s, %s)
     """
     cursor = db.get_db().cursor()
-    cursor.execute(query, (title, salary, location, industry, description, company_id))
+
+    cursor.execute(query, (poster, company_id, anonymous, content, stars, coop_id))
     db.get_db().commit()
     
-    return make_response("Job listing created!", 201)
+    response = make_response("Successfully posted review!")
+    response.status_code = 200
+    return response
 
 @employers.route('/e/delete_job/<int:job_id>', methods=['DELETE'])
 def delete_job(job_id):

@@ -7,6 +7,10 @@ from modules.nav import SideBarLinks
 st.set_page_config(layout='wide')
 
 SideBarLinks()
+
+company_name = st.text_input("Enter your company name:")
+if company_name:
+    st.session_state['company_name'] = company_name
   
 st.title(f"Welcome Company Admin, {st.session_state['company_name']}.")
 
@@ -24,7 +28,7 @@ if st.button('Post Internship Opportunities',
              use_container_width=True):
   st.switch_page('pages/33_Post_Opportunities.py')
 
-if st.button('View Your Current Internship Listings', 
+if st.button('Manage Co-op Listings', 
              type='primary',
              use_container_width=True):
   st.switch_page('pages/32_Current_Position_Listings.py')
