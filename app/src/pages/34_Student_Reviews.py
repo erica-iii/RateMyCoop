@@ -49,7 +49,7 @@ else:
     selected_company_name = st.session_state["company_name"]
 
 # analytics 
-response_a = requests.get(f'http://api:4000/s/students/company_analytics/{selected_company_name}') 
+response_a = requests.get(f'http://api:4000/e/company_analytics/{selected_company_name}') 
 
 if response_a.status_code == 200:
     analytics = response_a.json()  
@@ -70,13 +70,13 @@ else:
     st.error(f"Failed to fetch analytics: {response_a.status_code}")
 
 # reviews
-response = requests.get(f'http://api:4000/s/students/comp_reviews/{selected_company_name}')
+response = requests.get(f'http://api:4000/e/comp_reviews/{selected_company_name}')
 reviews = response.json()
 
 if reviews:
     for review in reviews:
         # fetch poster's name
-        poster_response = requests.get(f'http://api:4000/s/students/poster_name/{review["reviewId"]}')
+        poster_response = requests.get(f'http://api:4000/e/poster_name/{review["reviewId"]}')
 
         if poster_response.status_code == 200:
             poster_data = poster_response.json()
@@ -92,14 +92,14 @@ if reviews:
         st.write(f"Posted on: {review['createdAt']}")
 
         if st.button(f"Like this review ({review['reviewId']})", key=f"like-{review['reviewId']}"):
-            like_response = requests.put(f'http://api:4000/s/students/like_review/{review["reviewId"]}')
+            like_response = requests.put(f'http://api:4000/e/like_review/{review["reviewId"]}')
             if like_response.status_code == 200:
                 st.success("You liked this review!")
             else:
                 st.error("Failed to like the review.")
 
          # fetch comments for the review
-        comments_response = requests.get(f'http://api:4000/s/students/comments/{review["reviewId"]}')
+        comments_response = requests.get(f'http://api:4000/e/comments/{review["reviewId"]}')
         if comments_response.status_code == 200:
             comments = comments_response.json()
             st.write("##### Comments:")
@@ -117,3 +117,5 @@ else:
 # Button to return to the company home page
 if st.button('Return home'):
     st.switch_page('pages/31_Company_Home.py')
+
+
