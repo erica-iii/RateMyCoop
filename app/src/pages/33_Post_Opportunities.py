@@ -25,7 +25,7 @@ st.write("### Enter the job details:")
 with st.form("add_job"):
     
     # creating the various input widgets needed for each piece of information from the user
-    company = st.session_state['company_id']
+    company = 1
     job_title = st.text_input("Job Title:")
     content = st.text_area("Job Description:")
     job_salary = st.number_input("Salary:", step=1000)

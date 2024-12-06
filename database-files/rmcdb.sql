@@ -114,7 +114,7 @@ DROP TABLE IF EXISTS coops;
 CREATE TABLE coops (
     coopId     int AUTO_INCREMENT NOT NULL,
     jobTitle   varchar(100),
-    hourlyRate decimal(4, 2),
+    hourlyRate int,
     location   varchar(100),
     industry   varchar(100),
     summary    text,
