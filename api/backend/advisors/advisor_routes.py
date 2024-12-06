@@ -32,6 +32,43 @@ def get_companies():
 
     return theResponse
 
+@advisors.route('/advisors/students', methods=['GET'])
+def get_students():
+    # Non-accessible route to get all currently enrolled students
+    cursor = db.get_db().cursor()
+    cursor.execute(''' SELECT DISTINCT studentId FROM students; ''')
+    
+    theData = cursor.fetchall()
+    theResponse = make_response(jsonify(theData))
+    theResponse.status_code = 200
+
+    return theResponse
+
+@advisors.route('/advisors/coops', methods=['GET'])
+def get_coops():
+    # Non-accessible route to get all co-op IDs
+    cursor = db.get_db().cursor()
+    cursor.execute(''' SELECT DISTINCT coopId FROM coops; ''')
+    
+    theData = cursor.fetchall()
+    theResponse = make_response(jsonify(theData))
+    theResponse.status_code = 200
+
+    return theResponse
+
+@advisors.route('/advisors/advisor_ids', methods=['GET'])
+def get_coops():
+    # Non-accessible route to get all advisor IDs
+    cursor = db.get_db().cursor()
+    cursor.execute(''' SELECT DISTINCT advisorId FROM advisors; ''')
+    
+    theData = cursor.fetchall()
+    theResponse = make_response(jsonify(theData))
+    theResponse.status_code = 200
+
+    return theResponse
+
+
 @advisors.route('/advisors/coop_search', methods=['GET'])
 def search_coops():
     # Search co-ops
