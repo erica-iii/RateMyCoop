@@ -1,6 +1,14 @@
 import logging
-import requests
+logger = logging.getLogger(__name__)
+import pandas as pd
 import streamlit as st
+from streamlit_extras.app_logo import add_logo
+#import world_bank_data as wb
+import matplotlib.pyplot as plt
+import numpy as np
+#import plotly.express as px
+from modules.nav import SideBarLinks
+import requests
 
 # Set up logging
 logger = logging.getLogger(__name__)
@@ -24,15 +32,15 @@ view_option = st.radio(
 # If the company chooses "Another Company", allow them to select another company
 if view_option == "Another Company":
     # Fetch all companies for the employer to choose from
-    companies_response = requests.get('http://api:4000/e/companies')
+    companies_response = requests.get('http://api:4000/s/students/companies')
     if companies_response.status_code == 200:
         companies = companies_response.json()
         company_names = [company['companyName'] for company in companies]
         selected_company_name = st.selectbox("Select a company to view reviews", company_names)
         
         # Find the selected company's ID
-        selected_company = next(company for company in companies if company['companyName'] == selected_company_name)
-        selected_company_id = selected_company['companyId']
+        #selected_company = next(company for company in companies if company['companyName'] == selected_company_name)
+        #selected_company_name = selected_company['companyName']
     else:
         st.error(f"Failed to fetch company list: {companies_response.status_code}")
         st.stop()
@@ -40,52 +48,71 @@ else:
     selected_company_id = st.session_state["company_id"]
     selected_company_name = st.session_state["company_name"]
 
-# Fetch reviews for the selected company
-reviews_response = requests.get(f'http://api:4000/e/companies/{selected_company_id}/reviews')
-if reviews_response.status_code == 200:
-    reviews = reviews_response.json()
+# analytics 
+response_a = requests.get(f'http://api:4000/s/students/company_analytics/{selected_company_name}') 
 
-    if reviews:
-        st.write(f"### Reviews for {selected_company_name}:")
-        for review in reviews:
-            # Display each review
-            st.write(f"#### Review by: {review['reviewerName']}")
-            st.write(f"**Rating:** {review['rating']} stars")
-            st.write(f"**Review Content:** {review['content']}")
-            st.write(f"**Posted on:** {review['createdAt']}")
-            st.write("---")
-    else:
-        st.write(f"No reviews available for {selected_company_name}.")
+if response_a.status_code == 200:
+    analytics = response_a.json()  
+    #st.json(analytics)  
+    
+    averages = analytics.get('averages', {})
+    top_majors = analytics.get('topMajors', [])
+
+    st.write("##### Averages")
+    averages_df = pd.DataFrame([averages])
+    st.table(averages_df)
+
+    st.write("##### Top Majors")
+    majors_df = pd.DataFrame(top_majors)
+    st.table(majors_df)
+
 else:
-    st.error(f"Failed to fetch reviews: {reviews_response.status_code}")
+    st.error(f"Failed to fetch analytics: {response_a.status_code}")
 
-# Fetch demographic data for the selected company
-demographics_response = requests.get(f'http://api:4000/e/companies/{selected_company_id}/demographics')
-if demographics_response.status_code == 200:
-    demographics = demographics_response.json()
-    st.write(f"### Demographics and Analytics for {selected_company_name}:")
+# reviews
+response = requests.get(f'http://api:4000/s/students/comp_reviews/{selected_company_name}')
+reviews = response.json()
 
-    # Display top majors
-    top_majors = demographics.get('topMajors', [])
-    if top_majors:
-        st.write("#### Top Majors of Reviewers:")
-        for major in top_majors:
-            st.write(f"- {major}")
-    else:
-        st.write("No major data available.")
+if reviews:
+    for review in reviews:
+        # fetch poster's name
+        poster_response = requests.get(f'http://api:4000/s/students/poster_name/{review["reviewId"]}')
 
-    # show average rating
-    avg_rating = demographics.get('averageRating', None)
-    if avg_rating is not None:
-        st.write(f"#### Average Rating: {avg_rating} stars")
-    else:
-        st.write("No average rating data available.")
+        if poster_response.status_code == 200:
+            poster_data = poster_response.json()
+            name = poster_data.get('posterName', 'Unknown')
+        else:
+            name = 'Unknown'
 
-    # Display total number of reviews
-    total_reviews = demographics.get('totalReviews', 0)
-    st.write(f"#### Total Number of Reviews: {total_reviews}")
+        # display review details
+        st.write(f"##### Review by: {name}")
+        st.write(f"Stars: {review['stars']}")
+        st.write(f"Content: {review['content']}")
+        st.write(f"Likes: {review['likes']}")
+        st.write(f"Posted on: {review['createdAt']}")
+
+        if st.button(f"Like this review ({review['reviewId']})", key=f"like-{review['reviewId']}"):
+            like_response = requests.put(f'http://api:4000/s/students/like_review/{review["reviewId"]}')
+            if like_response.status_code == 200:
+                st.success("You liked this review!")
+            else:
+                st.error("Failed to like the review.")
+
+         # fetch comments for the review
+        comments_response = requests.get(f'http://api:4000/s/students/comments/{review["reviewId"]}')
+        if comments_response.status_code == 200:
+            comments = comments_response.json()
+            st.write("##### Comments:")
+            for comment in comments:
+                st.write(f"**{comment['commenterName']}**: {comment['content']}")
+                st.write("---")
+        else:
+            st.write("No comments yet.")
+
+        st.write("---")  
 else:
-    st.error(f"Failed to fetch demographics: {demographics_response.status_code}")
+    st.write("No reviews available for this company.")
+
 
 # Button to return to the company home page
 if st.button('Return home'):

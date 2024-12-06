@@ -80,16 +80,18 @@ def post_job():
     current_app.logger.info(job_data)
 
     title = job_data.get('title')
-    description = job_data.get('description')
     salary = job_data.get('salary')
+    location = job_data.get('location')
+    industry = job_data.get('industry')
+    description = job_data.get('description')
     company_id = job_data.get('company_id')
 
     query = """
-        INSERT INTO job_listings (title, description, salary, companyId)
-        VALUES (%s, %s, %s, %s)
+        INSERT INTO coops (jobTitle, hourlyRate, location, industry, summary, company)
+        VALUES (%s, %s, %s, %s, %s, %s)
     """
     cursor = db.get_db().cursor()
-    cursor.execute(query, (title, description, salary, company_id))
+    cursor.execute(query, (title, salary, location, industry, description, company_id))
     db.get_db().commit()
     
     return make_response("Job listing created!", 201)
