@@ -56,6 +56,18 @@ def get_coops():
 
     return theResponse
 
+@advisors.route('/advisors/recommendation_ids', methods=['GET'])
+def get_recommendation_ids():
+    # Non-accessible route to get all recommendation IDs
+    cursor = db.get_db().cursor()
+    cursor.execute(''' SELECT * FROM recommendations; ''')
+    
+    theData = cursor.fetchall()
+    theResponse = make_response(jsonify(theData))
+    theResponse.status_code = 200
+
+    return theResponse
+
 @advisors.route('/advisors/advisor_ids', methods=['GET'])
 def get_advisor_coops():
     # Non-accessible route to get all advisor IDs
@@ -236,12 +248,12 @@ def recommend_coops():
         current_app.logger.error(f"Error adding comment: {e}")
         return jsonify({'error': 'Failed to add comment'}), 500
     
-@advisors.route('/advisors/<int:advisor_id>/recommendations', methods=['GET'])
+@advisors.route('/advisors/recommendations/<int:advisor_id>', methods=['GET'])
 def see_recommendations(advisor_id):
     # See previous recommendations from Co-op Advisors
     cursor = db.get_db().cursor()
     cursor.execute(''' SELECT 
-                   CONCAT(a.firstName, ' ', a.lastName) AS advisor_name, 
+                   r.recommendationId, CONCAT(a.firstName, ' ', a.lastName) AS advisor_name, 
                    CONCAT(s.firstName, ' ', s.lastName) AS student_name,
                    feedback, c.jobTitle, c.location, c.industry, c.hourlyRate
                    FROM recommendations r
@@ -273,9 +285,6 @@ def edit_recommendations(recommendation_id):
         WHERE recommendationId = %s
     """
     cursor.execute(query, (feedback, recommendation_id))
-
-    if cursor.rowcount == 0:
-        return jsonify({'error': 'Recommendation not found'}), 404
 
     db.get_db().commit()
     

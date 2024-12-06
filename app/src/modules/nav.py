@@ -46,6 +46,7 @@ def AdvisorPageNav():
     st.sidebar.page_link("pages/11_Search_Coops.py", label="Co-op Search", icon='🔎')
     st.sidebar.page_link("pages/12_Search_Demographics.py", label="Demographic Search", icon='📈')
     st.sidebar.page_link("pages/13_Search_Companies.py", label='Company Search', icon='🏢')
+    st.sidebar.page_link("pages/14_Manage_Recommendations.py", label='Manage Recommendations', icon='👍')
     
 #### --------------------------- Employer Role -----------------------------------------
 def EmployerPageNav():
