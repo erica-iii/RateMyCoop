@@ -12,16 +12,26 @@ from backend.db_connection import db
 
 employers = Blueprint('employers', __name__)
 
-@employers.route('/e/job_listings', methods=['GET'])
+# get co-ops for the users company
+@employers.route('/coops', methods=['GET'])
 def get_job_listings():
     cursor = db.get_db().cursor()
-    cursor.execute("SELECT * FROM job_listings")
+    cursor.execute("SELECT * FROM coops WHERE company = 1")
     
     theData = cursor.fetchall()
     
     response = make_response(jsonify(theData))
     response.status_code = 200
     return response
+
+@employers.route('/deleteCoop/<int:coop_d>', methods=['DELETE'])
+def delete_reviews(coop_d):
+    cursor = db.get_db().cursor()
+    
+    cursor.execute("DELETE FROM coops WHERE coopId = %s", (coop_d,)) 
+    db.get_db().commit()
+    
+    return make_response("Co-op deleted", 200)
 
 @employers.route('/e/update_job/<int:job_id>', methods=['PUT'])
 def update_job(job_id):
