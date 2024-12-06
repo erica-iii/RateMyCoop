@@ -243,3 +243,16 @@ def edit_recommendations(recommendation_id):
     db.get_db().commit()
     
     return jsonify({'message': 'Recommendation updated successfully'}), 200
+
+@advisors.route('/advisors/delete_recommendations/<int:recommendation_id>', methods=['DELETE'])
+def delete_recommendation(recommendation_id):
+    cursor = db.get_db().cursor()
+
+    cursor.execute("DELETE FROM recommendations WHERE recommendationId = %s", (recommendation_id))
+
+    if cursor.rowcount == 0:
+        return jsonify({'error', 'Recommendation not found'}), 404
+    
+    db.get_db().commit()
+
+    return jsonify({'message', 'Recommendation deleted successfully'}), 200
