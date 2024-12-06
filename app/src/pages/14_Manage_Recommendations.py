@@ -10,19 +10,16 @@ import requests
 
 SideBarLinks()
 
-# add the logo
-add_logo("assets/logo.png", height=400)
-
 # Set up the options
-response = requests.get('http://4000:api/a/advisors/students')
+response = requests.get('http://api:4000/a/advisors/students')
 students = response.json()
 students_options = [student['studentId'] for student in students]
 
-response = requests.get('http://4000:api/advisors/advisor_ids')
+response = requests.get('http://api:4000/a/advisors/advisor_ids')
 advisors = response.json()
 advisors_options = [advisor['advisorId'] for advisor in advisors]
 
-response = requests.get('http://4000:api/a/advisors/coops')
+response = requests.get('http://api:4000/a/advisors/coops')
 coops = response.json()
 coops_options = [coop['coopId'] for coop in coops]
 

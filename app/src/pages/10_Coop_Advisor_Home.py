@@ -28,3 +28,8 @@ if st.button('Search Companies',
              type='primary',
              use_container_width=True):
     st.switch_page('pages/13_Search_Companies.py')
+
+if st.button('Manage Recommendations',
+             type='primary',
+             use_container_width=True):
+    st.switch_page('pages/14_Manage_Recommendations.py')

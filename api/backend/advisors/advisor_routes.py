@@ -57,7 +57,7 @@ def get_coops():
     return theResponse
 
 @advisors.route('/advisors/advisor_ids', methods=['GET'])
-def get_coops():
+def get_advisor_coops():
     # Non-accessible route to get all advisor IDs
     cursor = db.get_db().cursor()
     cursor.execute(''' SELECT DISTINCT advisorId FROM advisors; ''')
@@ -207,7 +207,7 @@ def search_companies():
     theResponse.status_code = 200
     return theResponse
 
-@advisors.routes('/advisors/recommend_coops', methods=['POST'])
+@advisors.route('/advisors/recommend_coops', methods=['POST'])
 def recommend_coops():
     # recommends coops to students
 
