@@ -170,4 +170,50 @@ def search_companies():
     theResponse.status_code = 200
     return theResponse
 
+@advisors.routes('/advisors/recommend_coops', methods=['POST'])
+def recommend_coops():
+    # recommends coops to students
 
+    recommendation_data = request.json
+    advisor_id = recommendation_data.get('advisorId')
+    student_id = recommendation_data.get('studentId')
+    coop_id = recommendation_data.get('coopId')
+    feedback = recommendation_data.get('feedback')
+
+    if not advisor_id or not student_id or not coop_id or not feedback:
+        return jsonify({'error': 'An Advisor, Student, Co-op listing, and feedback are required.'}), 400
+
+    cursor = db.get_db().cursor()
+
+    # insert comment into the comments table
+    query = """
+        INSERT INTO recommendations (advisorId, studentId, coopId, feedback)
+        VALUES (%s, %s, %s, %s)
+    """
+    try:
+        cursor.execute(query, (advisor_id, student_id, coop_id, feedback))
+        db.get_db().commit()
+        return jsonify({'message': 'Recommendation sent successfully!'}), 200
+    
+    except Exception as e:
+        current_app.logger.error(f"Error adding comment: {e}")
+        return jsonify({'error': 'Failed to add comment'}), 500
+    
+@advisors.route('/advisors/<advisor_id>/recommendations', methods=['GET'])
+def see_recommendations(advisor_id):
+    # See previous recommendations from Co-op Advisors
+    cursor = db.get_db().cursor()
+    cursor.execute(''' SELECT 
+                   CONCAT(a.firstName, ' ', a.lastName) AS advisor_name, 
+                   CONCAT(s.firstName, ' ', s.lastName) AS student_name,
+                   feedback, c.jobTitle, c.location, c.industry, c.hourlyRate
+                   FROM recommendations r
+                   JOIN advisors a
+                        ON r.advisorId = a.advisorId
+                   JOIN students s
+                        ON r.studentId = r.advisorId
+                   JOIN coops c
+                        ON r.coopId = c.coopId
+                   WHERE r.advisorId = %s''', (advisor_id))
+    
+    
