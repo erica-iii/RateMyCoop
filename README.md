@@ -38,7 +38,7 @@ The RestAPI can be accessed on localhost port 4000 with the following blueprints
 
 ## Accessing the Streamlit App
 
-The app can be on localhost port 8501. Currently, four personas are supported to simulate the main functionalities of our app:
+The streamlit app can be on localhost port 8501. Currently, four personas are supported to simulate the main functionalities of our app:
 
 - Student
 - SystemAdministrator
