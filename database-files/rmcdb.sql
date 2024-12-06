@@ -205,6 +205,21 @@ CREATE TABLE system_updates (
 
 CREATE INDEX id on system_updates (updateId);
 
+-- creating an advisor/student recommedation and feedback table
+DROP TABLE IF EXISTS recommendations;
+CREATE TABLE recommendations (
+    recommendationId int AUTO_INCREMENT NOT NULL,
+    studentId int NOT NULL,
+    advisorId int NOT NULL,
+    coopId int NOT NULL,
+    feedback text NOT NULL,
+    PRIMARY KEY (recommendationId),
+    CONSTRAINT fk_sid FOREIGN KEY (studentId) REFERENCES students (studentId) ON UPDATE cascade ON DELETE cascade,
+    CONSTRAINT fk_aid FOREIGN KEY (advisorId) REFERENCES advisors (advisorId) ON UPDATE cascade ON DELETE cascade,
+    CONSTRAINT fk_cid FOREIGN KEY (coopId) REFERENCES coops (coopId) ON UPDATE cascade ON DELETE cascade
+);
+
+CREATE INDEX id ON recommendations (recommendationId);
 
 
 
