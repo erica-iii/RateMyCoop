@@ -75,58 +75,44 @@ def get_demographics(company_id):
     return response
 
 @employers.route('/e/post_job', methods=['POST'])
-# posts a review to database
+# posts a job to the database
 def post_job():
-
-    # collecting the data
+    # Collecting the data
     the_data = request.json
-    current_app.logger.info(the_data)
+    current_app.logger.info(f"Received data: {the_data}")
 
-    company = the_data['company']
-    job_title = the_data['job_title']
-    content = the_data['content']
-    location = the_data['location']
-    industry = the_data['industry']
-    salary = the_data['salary']
-    
-    # inserting data
+    company = the_data.get('company')
+    job_title = the_data.get('job_title')
+    content = the_data.get('content')
+    location = the_data.get('location')
+    industry = the_data.get('industry')
+    salary = the_data.get('salary')
+
+    # Validate the company ID
     cursor = db.get_db().cursor()
+    cursor.execute("SELECT companyId FROM companies WHERE companyId = %s", (company,))
+    company_data = cursor.fetchone()
 
-    cursor.execute("SELECT companyId FROM companies WHERE companyName = %s", (company,))
-    company = cursor.fetchone()
+    if not company_data:
+        current_app.logger.error(f"Invalid company ID: {company}")
+        return jsonify({'error': 'Company not found'}), 404
 
-    if not company:
-        cursor.execute("INSERT INTO companies (companyName, activityStatus) VALUES (%s, %s)", (company, 1))
-        db.get_db().commit()
-        cursor.execute("SELECT companyId FROM companies WHERE companyName = %s", (company,))
-        company = cursor.fetchone()
-
-    company_id = company['companyId']
-
-    cursor.execute("SELECT coopId FROM coops WHERE jobTitle = %s AND company = %s", (job_title, company_id))
-    coop = cursor.fetchone()
-
-    if not coop:
-        cursor.execute("INSERT INTO coops (jobTitle, company) VALUES (%s, %s)", (job_title, company_id))
-        db.get_db().commit()
-        cursor.execute("SELECT coopId FROM coops WHERE jobTitle = %s AND company = %s", (job_title, company_id))
-        coop = cursor.fetchone()
-
-    coop_id = coop['coopId']
-
-    # running query to insert review 
+    # Insert the job into the coops table
     query = """
-        INSERT INTO reviews (poster, reviewOf, anonymous, content, stars, coopId)
+        INSERT INTO coops (jobTitle, hourlyRate, location, industry, summary, company)
         VALUES (%s, %s, %s, %s, %s, %s)
     """
-    cursor = db.get_db().cursor()
+    try:
+        cursor.execute(query, (job_title, salary, location, industry, content, company))
+        db.get_db().commit()
+        response = make_response("Successfully posted job!")
+        response.status_code = 200
+        return response
+    except Exception as e:
+        current_app.logger.error(f"Error posting job: {e}")
+        return jsonify({'error': 'Failed to post job'}), 500
 
-    cursor.execute(query, (poster, company_id, anonymous, content, stars, coop_id))
-    db.get_db().commit()
-    
-    response = make_response("Successfully posted review!")
-    response.status_code = 200
-    return response
+
 
 @employers.route('/e/delete_job/<int:job_id>', methods=['DELETE'])
 def delete_job(job_id):
