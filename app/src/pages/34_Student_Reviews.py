@@ -32,7 +32,7 @@ view_option = st.radio(
 # If the company chooses "Another Company", allow them to select another company
 if view_option == "Another Company":
     # Fetch all companies for the employer to choose from
-    companies_response = requests.get('http://api:4000/s/students/companies')
+    companies_response = requests.get('http://api:4000/e/companies')
     if companies_response.status_code == 200:
         companies = companies_response.json()
         company_names = [company['companyName'] for company in companies]
