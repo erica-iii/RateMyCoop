@@ -296,9 +296,6 @@ def delete_recommendation(recommendation_id):
 
     cursor.execute("DELETE FROM recommendations WHERE recommendationId = %s", (recommendation_id))
 
-    if cursor.rowcount == 0:
-        return jsonify({'error', 'Recommendation not found'}), 404
-    
     db.get_db().commit()
 
-    return jsonify({'message', 'Recommendation deleted successfully'}), 200
+    return jsonify({'message': 'Recommendation deleted successfully'}), 200

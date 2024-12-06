@@ -69,7 +69,7 @@ with st.form("add_recommendation_form"):
             except requests.exceptions.RequestException as e:
                 st.error(f"Error connecting to server: {str(e)}")
 
-st.markdown("# See and edit previous recommendations:")
+st.markdown("# See and Edit Previous Recommendations:")
 
 st.write("## See Recommendations:")
 advisor_id = st.selectbox("Select an Advisor to view recommendations for:", options=advisors_options)
@@ -91,13 +91,13 @@ edit_recommendation = st.selectbox("Select a recommendation to edit:", recommend
 if edit_recommendation:
     result = next((rec for rec in recommendations if rec.get('recommendationId') == edit_recommendation), None)
     
-    # show current review details
+    # Show current Recommendation details
     st.write("##### Current Recommendation")
     st.write(f"**Feedback:** {result['feedback']}")
     st.write(f"**Co-op ID:** {result['coopId']}")
     st.write(f"**Student ID:** {result['studentId']}")
 
-    # edit form
+    # Edit form
     st.write("### Edit Recommendation")
     with st.form("edit_rec_form"):
         new_content = st.text_area("Edit Feedback", value=result['feedback'])
@@ -118,3 +118,28 @@ else:
     st.error("Failed to fetch recommendations.")
 
 st.divider()
+
+st.markdown("# Delete Recommendations:")
+
+# Delete Recommendation functionality
+delete_recommendation = st.selectbox("Select a recommendation to delete:", recommendations_options)
+if delete_recommendation:
+    delete_recommendation_data = next((rec for rec in recommendations if rec['recommendationId'] == delete_recommendation), None)
+    
+    # Show current Recommendation details
+    st.write("### Recommendation to Delete")
+    st.write("##### Current Recommendation")
+    st.write(f"**Feedback:** {delete_recommendation_data['feedback']}")
+    st.write(f"**Co-op ID:** {delete_recommendation_data['coopId']}")
+    st.write(f"**Student ID:** {delete_recommendation_data['studentId']}")
+
+    # Confirm Deletion
+    if st.button("Delete Recommendation", type='primary', use_container_width=True):
+        delete_response = requests.delete(f'http://api:4000/a/advisors/delete_recommendations/{delete_recommendation}')
+        
+        if delete_response.status_code == 200 or delete_response.status_code == 204:
+            st.success("Recommendation deleted successfully!")
+        else:
+            st.error(f"Failed to delete recommendation: {delete_response.status_code}")
+else:
+    st.error("Failed to fetch recommendations.")
