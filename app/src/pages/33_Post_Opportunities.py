@@ -22,34 +22,62 @@ st.write(f"### Welcome, {st.session_state['company_name']}!")
 # Form for posting a new job
 st.write("### Enter the job details:")
 
-# Job details input fields
-job_title = st.text_input("Job Title")
-job_description = st.text_area("Job Description")
-job_salary = st.number_input("Salary (per year)", min_value=0)
-job_location = st.text_input("Location")
-job_industry = st.text_area("Industry")
-
-# submit button -- as long as all fields are filled out
-if st.button("Post Job"):
-    if not job_title or not job_description or not job_salary or not job_location:
-        st.error("Please fill in all required fields.")
-    else:
-        job_data = {
-            "title": job_title,
-            "description": job_description,
-            "salary": job_salary,
-            "location": job_location,
-            "companyId": st.session_state["company_id"],
-            "industry": job_industry
-        }
-
-        # posting job listing
-        post_response = requests.post(f'http://api:4000/e/companies/{st.session_state["company_id"]}/post_job', json=job_data)
-
-        if post_response.status_code == 201:
-            st.success("Job posted successfully!")
+with st.form("add_job"):
+    
+    # creating the various input widgets needed for each piece of information from the user
+    company = st.session_state['company_name']
+    job_title = st.text_input("Job Title:")
+    content = st.text_area("Job Description:")
+    job_salary = st.number_input("Salary:", step=1000)
+    job_location = st.text_input("Location:")
+    job_industry = st.text_input("Industry")
+    
+    # adding the submit button
+    submit_button = st.form_submit_button("Post Review")
+    
+    # validating that all fields are filled when form is submitted
+    if submit_button:
+        if not company:
+            st.error("Please select a company")
+        elif not job_title:
+            st.error("Please enter a job title")
+        elif not content:
+            st.error("Please enter job descriptions")
+        elif not job_salary:
+            st.error("Please enter a salary")
+        elif not job_location:
+            st.error("Please enter a location")
+        elif not job_industry:
+            st.error("Please enter an industry")
         else:
-            st.error(f"Failed to post the job. Error: {post_response.status_code}")
+            # packing up all the data that the user entered into a dictionary
+            review_data = {
+                "company": company,
+                "job_title": job_title,
+                "content": content,
+                "location": job_location,
+                "industry": job_industry,
+                "salary": job_salary
+            }
+             
+            logger.info(f"Review posted with data: {review_data}")
+            
+            # trying post request
+            try:
+                response = requests.post('http://api:4000/e/e/post_job', json=review_data)
+                if response.status_code == 200:
+                    st.success("Review posted successfully!")
+                else:
+                    st.error(f"Error posting review: {response.text}")
+            except requests.exceptions.RequestException as e:
+                st.error(f"Error connecting to server: {str(e)}")
+
+        # test to see if review is really there
+        #response = requests.get(f'http://api:4000/s/students/reviews')
+        #reviews = response.json()
+        #st.table(reviews)  
+
+
 
 # Button to return to the employer homepage
 if st.button('Return home'):
