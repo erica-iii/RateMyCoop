@@ -112,3 +112,17 @@ def get_reviews(company_id):
     response = make_response(jsonify(reviews))
     response.status_code = 200
     return response
+
+@employers.route('/e/company_name/<int:company_id>', methods=['GET'])
+def get_company_name(company_id):
+    query = "SELECT companyName FROM employers WHERE companyId = %s"
+    cursor = db.get_db().cursor()
+    cursor.execute(query, (company_id,))
+    company_name = cursor.fetchone()
+    
+    if not company_name:
+        return make_response(jsonify({"message": "Company not found"}), 404)
+    
+    response = make_response(jsonify({"company_name": company_name[0]}))
+    response.status_code = 200
+    return response
