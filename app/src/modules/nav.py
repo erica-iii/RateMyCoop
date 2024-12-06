@@ -50,7 +50,7 @@ def AdvisorPageNav():
 #### --------------------------- Employer Role -----------------------------------------
 def EmployerPageNav():
     st.sidebar.page_link("pages/32_Current_Position_Listings.py", label="Current Positions", icon='📋')
-    st.sidebar.page_link("pages/33_Post_Opportunities", label="Add a Position", icon='💼')
+    st.sidebar.page_link("pages/33_Post_Opportunities.py", label="Add a Position", icon='💼')
     st.sidebar.page_link("pages/34_Student_Reviews.py", label='Position Reviews', icon='📩')
 
 # --------------------------------Links Function -----------------------------------------------
