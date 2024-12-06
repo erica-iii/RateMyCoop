@@ -7,12 +7,8 @@ from modules.nav import SideBarLinks
 st.set_page_config(layout='wide')
 
 SideBarLinks()
-
-company_name = st.text_input("Enter your company name:")
-if company_name:
-    st.session_state['company_name'] = company_name
   
-st.title(f"Welcome Company Admin, {st.session_state['company_name']}.")
+st.title(f"Welcome Dina Moore of TechCorp")
 
 st.write('')
 st.write('')
