@@ -211,9 +211,16 @@ def see_recommendations(advisor_id):
                    JOIN advisors a
                         ON r.advisorId = a.advisorId
                    JOIN students s
-                        ON r.studentId = r.advisorId
+                        ON r.studentId = s.studentId
                    JOIN coops c
                         ON r.coopId = c.coopId
                    WHERE r.advisorId = %s''', (advisor_id))
+    
+    theData = cursor.fetchall()
+    theResponse = make_response(jsonify(theData))
+    theResponse.status_code = 200
+    return theResponse
+
+
     
     
