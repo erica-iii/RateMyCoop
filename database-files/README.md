@@ -1,3 +1,9 @@
 # `database-files` Folder
 
-TODO: Put some notes here about how this works.  include how to re-bootstrap the db. 
+To run for the first time, enter these commands in terminal:
+- docker compose build
+- docker compose up -d
+
+To rebootstap, enter these commands in terminal:
+- docker compose down
+- docker compose up -d
